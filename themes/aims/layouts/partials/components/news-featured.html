@@ -1,0 +1,54 @@
+{{- $image := .Image | default "/images/image-placeholder.png" -}}
+{{- $badge := .Badge | default "Default" -}}
+{{- $title := .Title | default "Default Title" -}}
+{{- $description := .Description | default "Default description text goes here. This is a placeholder for the news card description." -}}
+{{- $buttonEnable := .Button.enable | default true -}}
+{{- $buttonLabel := .Button.label | default "Read More" -}}
+{{- $buttonLink := .Button.link | default "Read More" -}}
+{{- $publishDate := .PublishDate | default "2022-04-01T05:00:00Z" -}}
+{{- $readingTime := .ReadingTime }}
+
+
+<div class="flex flex-col md:flex-row gap-6 xl:gap-8 max-w-[1280px] mx-auto">
+  {{/* Left Side */}}
+  <div class="md:w-[40%] ">
+    {{ partial "image" (dict "Src" $image "Alt" $title "Class" "w-full !h-full lg:min-h-[300px] object-cover aspect-[562/390]" "Size" "600x350") }}
+  </div>
+
+  {{/* Right Side */}}
+  <div class="md:w-[60%] ">
+    <div class="flex flex-col justify-between h-full md:py-4">
+      <div class="text-left">
+        {{/* Badge */}}
+        <span class="badge mb-2">{{ $badge }}</span>
+
+        {{/* Title */}}
+        <a
+          href="{{ relLangURL $buttonLink }}"
+          class="h3 mb-4 hover:text-primary"
+          ><h3 class="text-h6 xl:text-h5 font-bold mb-4">{{ $title | upper }}</h3></a
+        >
+
+        {{/* Date & Read time */}}
+        <div class="flex items-center gap-2 mb-4 text-primary">
+          <span class=" text-sm"
+            >{{ time.Format ":date_long" $publishDate }}</span
+          >
+
+          <span class=" text-sm">|</span>
+          <span class=" text-sm">{{ .ReadingTime }} Min Read</span>
+        </div>
+
+        {{/* Description */}}
+        <p class="text-base text-text mb-6 line-clamp-3">
+          {{ $description }}
+        </p>
+      </div>
+
+      {{/* Button */}}
+      {{ if $buttonEnable }}
+        {{ partial "components/arrow-button.html" (dict "link" (relLangURL $buttonLink) "label" $buttonLabel  "variation" "primary" "class" "mt-4 xl:mt-10") }}
+      {{ end }}
+    </div>
+  </div>
+</div>

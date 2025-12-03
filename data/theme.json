@@ -1,0 +1,21 @@
+{
+  "colors": {
+    "default": {
+      "theme_color": {
+        "primary": "#800000",
+        "body": "#ffffff",
+        "border": "#D9B2B2",
+        "light": "#F4F5F6",
+        "dark": "#040404"
+      },
+      "text_color": {
+        "text": "#4F5662",
+        "text-dark": "#040404",
+        "text-light": "#606977"
+      }
+    }
+  },
+  "fonts": {
+    "font_size": { "base": "16", "scale": "1.250" }
+  }
+}

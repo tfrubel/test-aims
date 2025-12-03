@@ -1,0 +1,239 @@
+{{ define "main" }}
+<!-- Page Header -->
+{{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "buttons" (dict "label" "Explore Opportunities" "link" "programs")) }}
+
+<!-- Involved -->
+{{ with .Params.involved }}
+{{ if .enable }}
+<section class="section">
+    <div class="container">
+        <div class="section-container gap-16 lg:gap-10 lg:flex-row-reverse">
+            <div class="section-content lg:w-[48%] ">
+                {{ partial "image" (dict "Src" .image "Alt" .title "Class" "sticky rounded-xl size-full") }}
+            </div>
+            <div class="section-intro lg:w-[52%] xl:pr-24">
+                {{ if .badge }}
+                <div class="flex mb-4">
+                    <span class="btn border border-primary px-3 py-1 text-primary flex items-center gap-2 ">
+                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12.6273 11.0713V12.6531C12.6273 13.3083 12.0961 13.8395 11.4408 13.8395H4.55949C3.90425 13.8395 3.37305 13.3083 3.37305 12.6531V8.50098"
+                                class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M15 12.6523V10.0791" class="stroke-primary" stroke-width="1.5"
+                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M7.08789 3.34278L1.7304 5.62484C1.3015 5.80357 1 6.22681 1 6.72046C1 7.2141 1.3015 7.63734 1.7304 7.81607L7.08789 10.0981C7.36869 10.2152 7.67681 10.2798 8 10.2798C8.32319 10.2798 8.63131 10.2152 8.91211 10.0981L14.2696 7.81607C14.6985 7.63734 15 7.2141 15 6.72046C15 6.22681 14.6985 5.80357 14.2696 5.62484L8.91211 3.34278C8.63131 3.22573 8.32319 3.16113 8 3.16113C7.67681 3.16113 7.36869 3.22573 7.08789 3.34278Z"
+                                class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        {{ .badge | markdownify }}
+                    </span>
+                </div>
+                {{ end }}
+                <h3 class="mb-4 hasEmphasize">{{ .title | upper | markdownify }}</h3>
+                <div class="mb-8">
+                    {{ .subtitle | markdownify }}
+                </div>
+                <div class="flex flex-col gap-4">
+                    {{ range .bulletPoints }}
+                    <div class="flex gap-2 items-center">
+                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12.6273 11.0713V12.6531C12.6273 13.3083 12.0961 13.8395 11.4408 13.8395H4.55949C3.90425 13.8395 3.37305 13.3083 3.37305 12.6531V8.50098"
+                                class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M15 12.6523V10.0791" class="stroke-primary" stroke-width="1.5"
+                                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M7.08789 3.34278L1.7304 5.62484C1.3015 5.80357 1 6.22681 1 6.72046C1 7.2141 1.3015 7.63734 1.7304 7.81607L7.08789 10.0981C7.36869 10.2152 7.67681 10.2798 8 10.2798C8.32319 10.2798 8.63131 10.2152 8.91211 10.0981L14.2696 7.81607C14.6985 7.63734 15 7.2141 15 6.72046C15 6.22681 14.6985 5.80357 14.2696 5.62484L8.91211 3.34278C8.63131 3.22573 8.32319 3.16113 8 3.16113C7.67681 3.16113 7.36869 3.22573 7.08789 3.34278Z"
+                                class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+
+                        <span class=" inline-block text-dark text-h6 font-bold leading-none">
+                            {{ . | markdownify }}
+                        </span>
+                    </div>
+                    {{ end }}
+                </div>
+                <div class="mt-8">
+                    {{ if .button.enable }}
+                    {{ partial "components/arrow-button.html" (dict "link" (relLangURL .button.link) "label"
+                    .button.label) }}
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}
+{{ end }}
+<!-- Involved -->
+
+<!-- Opportunities -->
+{{ with .Params.scholarships_opportunities }}
+{{ if .enable }}
+<section class="section">
+    <div class="container">
+        <div class="section-container">
+            <div class="section-intro justify-between xl:!flex-row xl:!gap-10 xl:!items-center">
+                <h2 class="title xl:!w-3/5 hasEmphasize">
+                    {{ .title | upper | markdownify }}
+                </h2>
+                <div class="subtitle xl:!w-2/5">
+                    {{ .subtitle | markdownify }}
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="row gap-y-6">
+                    {{ range .scholarships_list }}
+                    <div class="md:col-6 lg:col-4">
+                        {{ partial "components/donate-card" . }}
+                    </div>
+                    {{ end }}
+                </div>
+                <div class="mt-14">
+                    {{ if .button.enable }}
+                    {{ partial "components/arrow-button.html" (dict "link" (relLangURL .button.link) "label"
+                    .button.label) }}
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}
+{{ end }}
+<!-- Opportunities -->
+
+<!-- Teach at AIMS -->
+{{ with .Params.teach_at_aims }}
+{{ if .enable }}
+<section class="section">
+    <div class="container">
+        <div class="section-container gap-16 lg:gap-10 flex-col-reverse lg:flex-row-reverse items-center">
+            <div class="section-intro lg:w-[52%] xl:pl-10">
+                <h3 class="mb-4 hasEmphasize">{{ .title | upper | markdownify }}</h3>
+                <div class="mb-6 content prose-p:text-lg">
+                    {{ .subtitle | markdownify }}
+                </div>
+                <div class="flex flex-col gap-4">
+                    {{ range .list }}
+                    <div>
+                        <p class="flex items-center gap-2 mb-2 font-bold">
+                            <svg width="24" height="19" viewBox="0 0 24 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18.9399 13.3564V15.7291C18.9399 16.712 18.1431 17.5088 17.1603 17.5088H6.83825C5.85539 17.5088 5.05859 16.712 5.05859 15.7291V9.50098"
+                                    class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M22.5 15.729V11.8691" class="stroke-primary" stroke-width="1.5"
+                                    stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M10.6318 1.76417L2.5956 5.18725C1.95226 5.45536 1.5 6.09021 1.5 6.83068C1.5 7.57115 1.95226 8.206 2.5956 8.47411L10.6318 11.8972C11.053 12.0728 11.5152 12.1697 12 12.1697C12.4848 12.1697 12.947 12.0728 13.3682 11.8972L21.4044 8.47411C22.0477 8.206 22.5 7.57115 22.5 6.83068C22.5 6.09021 22.0477 5.45536 21.4044 5.18725L13.3682 1.76417C12.947 1.5886 12.4848 1.4917 12 1.4917C11.5152 1.4917 11.053 1.5886 10.6318 1.76417Z"
+                                    class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+
+                            {{.title | upper | markdownify}}
+                        </p>
+                        <p>{{.description | markdownify}}</p>
+                    </div>
+                    {{ end }}
+                </div>
+                <div class="mt-8">
+                    {{ if .button.enable }}
+                    {{ partial "components/arrow-button.html" (dict "link" (relLangURL .button.link) "label"
+                    .button.label) }}
+                    {{ end }}
+                </div>
+            </div>
+            <div class="section-content lg:w-[48%] ">
+                {{ partial "image" (dict "Src" .image "Alt" .title "Class" "sticky rounded-xl size-full") }}
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}
+{{ end }}
+<!-- Involved -->
+
+
+<!-- Supervise a Students -->
+{{ with .Params.supervise_student }}
+{{ if .enable }}
+<section class="section">
+    <div class="container">
+        <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+                <div class="row gap-y-6">
+                    {{ range .supervise_list }}
+                    <div class="lg:col-6">
+                        {{ partial "components/supervise-card" . }}
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}
+{{ end }}
+<!-- Supervise a Students -->
+
+<!-- Works at AIMS -->
+{{ with .Params.works_at_aims }}
+{{ if .enable }}
+<section class="section">
+    <div class="container">
+        <div class="section-container">
+            {{ partial "section-header" . }}
+
+            <div class="section-content">
+                <div class="row gap-y-6">
+                    {{ range .work_list }}
+                    <div class="sm:col-6 lg:col-4 xl:col-3">
+                        {{ partial "components/donate-card" . }}
+                    </div>
+                    {{ end }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}
+{{ end }}
+<!-- Works at AIMS -->
+
+
+<!-- Job Opportunities -->
+{{ with .Params.job_positions }}
+{{ if .enable }}
+<section class="section">
+    <div class="container">
+        <div class="section-container">
+            {{ partial "section-header" . }}
+
+            <div class="section-content">
+                <div class="row gap-y-6">
+                    {{ range .job_list }}
+                    <div class="lg:col-6">
+                        {{ partial "components/job-card" . }}
+                    </div>
+                    {{ end }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}
+{{ end }}
+<!-- Job Opportunities -->
+
+
+
+{{ end }}

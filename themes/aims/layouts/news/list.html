@@ -1,0 +1,138 @@
+{{ define "main" }}
+  <!-- Page Header -->
+  {{ $featuredNews := site.GetPage (printf "/news/%s" .Params.featured_news) }}
+  {{ with $featuredNews.Params }}
+    <section class="section-lg">
+      <div class="container text-center">
+        {{ partial "components/news-featured.html" (dict "Image" .image "Badge" .author "Title" .Title "Description" .description "Button" (dict "enable" true "label" "Read More" "link" $featuredNews.RelPermalink) "ReadingTime" $featuredNews.ReadingTime) }}
+      </div>
+    </section>
+  {{ end }}
+
+
+  <!-- News & Pagination -->
+  {{ if .Params.news_from_aims_centers.enable }}
+    <section class="section">
+      <div class="container">
+        <div class="section-container">
+          <div class="section-intro">
+            <h2 class="title hasEmphasize">
+              {{ .Params.news_from_aims_centers.title | upper | markdownify }}
+            </h2>
+            <div class="subtitle ">
+              {{ .Params.news_from_aims_centers.subtitle | markdownify }}
+            </div>
+          </div>
+
+          <div class="section-content">
+            {{/* TODO: Pagination */}}
+            <div class="flex flex-col gap-y-6 mb-14">
+              {{ $paginator := .Paginate (where .RegularPages "Type" "news") 5 }}
+              {{ range $paginator.Pages }}
+                {{ partial "components/news-card-horizontal.html" (dict "Image" .Params.image "Badge" .Params.author "Title" .Title "Description" .Params.description "Button" (dict "enable" true "label" "Read More" "link" .Permalink)) }}
+              {{ end }}
+            </div>
+            {{ partial "components/pagination.html" . }}
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+  <!-- /News & Pagination-->
+
+  <!-- Aims in the News-->
+  {{ $aims_in_the_news := site.GetPage "/aims-in-the-news" }}
+  {{ with .Params.aims_in_the_news }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro ">
+              <h2 class="title  hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <div class="subtitle ">
+                {{ .subtitle | markdownify }}
+              </div>
+            </div>
+            <div class="section-content">
+              <div class="row gap-y-6">
+                {{ range $aims_in_the_news.RegularPages | first 6 }}
+                  <div class="md:col-6 lg:col-4">
+                    {{ partial "components/news-card-secondary.html" . }}
+                  </div>
+                {{ end }}
+              </div>
+              <div class="mt-14 flex">
+                <a
+                  href="/aims-in-the-news"
+                  class="btn btn-primary font-normal flex items-center gap-2">
+                  See All News
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M6.28308 11.0348L2.00951 6.76124C1.85019 6.60192 1.66256 6.52226 1.44664 6.52226C1.23071 6.52226 1.04346 6.60192 0.884885 6.76124C0.726314 6.92056 0.646841 7.108 0.646466 7.32355C0.646091 7.5391 0.725564 7.72654 0.884886 7.88586L6.508 13.509C6.66732 13.6683 6.85476 13.7478 7.07031 13.7474C7.28587 13.747 7.4733 13.6675 7.63262 13.509L13.2557 7.88586C13.4151 7.72654 13.4947 7.53892 13.4947 7.32299C13.4947 7.10706 13.4151 6.91981 13.2557 6.76124C13.0964 6.60267 12.9088 6.52301 12.6929 6.52226C12.4769 6.52151 12.2897 6.60117 12.1311 6.76124L7.85755 11.0348L7.85755 1.02566C7.85755 0.819481 7.77789 0.636729 7.61857 0.477407C7.45924 0.318086 7.27649 0.238427 7.07031 0.238427C6.86413 0.238427 6.68138 0.318086 6.52206 0.477407C6.36274 0.636729 6.28308 0.819481 6.28308 1.02566L6.28308 11.0348Z"
+                      fill="white" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Aims in the News-->
+
+  <!-- Aims in the News-->
+  {{ $press_releases := site.GetPage "/press-news" }}
+  {{ with .Params.press_releases }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro ">
+              <h2 class="title  hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <div class="subtitle ">
+                {{ .subtitle | markdownify }}
+              </div>
+            </div>
+            <div class="section-content">
+              <div class="row gap-y-6">
+                {{ range $press_releases.RegularPages | first 6 }}
+                  <div class="lg:col-6">
+                    {{ partial "components/press-news-card.html" . }}
+                  </div>
+                {{ end }}
+              </div>
+              <div class="mt-14 flex">
+                <a
+                  href="/press-news"
+                  class="btn btn-primary font-normal flex items-center gap-2">
+                  See All Press News
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M6.28308 11.0348L2.00951 6.76124C1.85019 6.60192 1.66256 6.52226 1.44664 6.52226C1.23071 6.52226 1.04346 6.60192 0.884885 6.76124C0.726314 6.92056 0.646841 7.108 0.646466 7.32355C0.646091 7.5391 0.725564 7.72654 0.884886 7.88586L6.508 13.509C6.66732 13.6683 6.85476 13.7478 7.07031 13.7474C7.28587 13.747 7.4733 13.6675 7.63262 13.509L13.2557 7.88586C13.4151 7.72654 13.4947 7.53892 13.4947 7.32299C13.4947 7.10706 13.4151 6.91981 13.2557 6.76124C13.0964 6.60267 12.9088 6.52301 12.6929 6.52226C12.4769 6.52151 12.2897 6.60117 12.1311 6.76124L7.85755 11.0348L7.85755 1.02566C7.85755 0.819481 7.77789 0.636729 7.61857 0.477407C7.45924 0.318086 7.27649 0.238427 7.07031 0.238427C6.86413 0.238427 6.68138 0.318086 6.52206 0.477407C6.36274 0.636729 6.28308 0.819481 6.28308 1.02566L6.28308 11.0348Z"
+                      fill="white" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Aims in the News-->
+{{ end }}

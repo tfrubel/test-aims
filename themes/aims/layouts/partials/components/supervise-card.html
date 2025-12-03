@@ -1,0 +1,35 @@
+<div class="bg-white shadow-card hover:-translate-y-1 transition-all duration-300">
+  <h3 class="text-h5 py-4 text-center bg-black text-white">{{.title | upper | markdownify}}</h3>
+
+  <div class="py-6 px-8">
+    <p> {{ .content | markdownify }}</p>
+    <ul class="flex flex-col mt-6 gap-y-3">
+      {{ range .bulletPoints }}
+      <li class="flex items-center gap-2 mb-2 text-h5 font-semibold text-black n">
+        <svg width="24" height="19" viewBox="0 0 24 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M18.9399 13.3564V15.7291C18.9399 16.712 18.1431 17.5088 17.1603 17.5088H6.83825C5.85539 17.5088 5.05859 16.712 5.05859 15.7291V9.50098"
+            class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M22.5 15.729V11.8691" class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10"
+            stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M10.6318 1.76417L2.5956 5.18725C1.95226 5.45536 1.5 6.09021 1.5 6.83068C1.5 7.57115 1.95226 8.206 2.5956 8.47411L10.6318 11.8972C11.053 12.0728 11.5152 12.1697 12 12.1697C12.4848 12.1697 12.947 12.0728 13.3682 11.8972L21.4044 8.47411C22.0477 8.206 22.5 7.57115 22.5 6.83068C22.5 6.09021 22.0477 5.45536 21.4044 5.18725L13.3682 1.76417C12.947 1.5886 12.4848 1.4917 12 1.4917C11.5152 1.4917 11.053 1.5886 10.6318 1.76417Z"
+            class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+
+        {{ . }}
+
+      </li>
+      {{ end }}
+
+    </ul>
+
+    {{ if .button }}
+    <div class="mt-6">
+      {{ partial "components/arrow-button.html" (dict "link" (relLangURL .button.link) "label" .button.label ) }}
+    </div>
+    {{ end }}
+  </div>
+</div>

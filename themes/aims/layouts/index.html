@@ -1,0 +1,431 @@
+{{ define "main" }}
+  <!-- Banner -->
+  {{ with.Params.banner }}
+    <section class="section !pt-70 !pb-50 bg-transparent relative">
+      <div
+        class="banner-media overflow-hidden absolute top-0 left-0 w-full h-full -z-10 before:bg-white/70 before:content-[''] before:absolute before:inset-0">
+        {{ if .background_video }}
+          {{ partial "process-file" (dict "Src" .background_video) }}
+
+          {{/* Poster/Placeholder Image */}}
+          <div
+            class="hero-placeholder absolute -z-10 top-0 left-0 w-full h-full transition-opacity duration-500 -mt-[10px]"
+            id="videoPlaceholder">
+            {{ partial "image" (dict "Resize" false "Src" (or .background_video_poster .background_image site.Params.default_background_image) "Alt" "Video poster" "Loading" "eager" "Class" "w-full! min-h-full! object-cover") }}
+          </div>
+
+          {{/* Video Element */}}
+          <video
+            id="heroVideo"
+            class="hero-video w-full min-h-full object-cover -mt-[10px]"
+            muted
+            loop
+            playsinline
+            preload="none">
+            <source data-src="{{ .background_video }}" type="video/mp4" />
+            Your browser does not support HTML5 video.
+          </video>
+        {{ else }}
+          {{/* Render Background Image Only */}}
+          {{ partial "image" (dict "Src" (or .background_image site.Params.default_background_image) "Alt" "Banner image" "Loading" "eager" "Class" "w-full h-full object-cover") }}
+        {{ end }}
+      </div>
+      <div class="container-lg">
+        <div class="row justify-between items-start lg:mb-12">
+          <div class="xl:col-6 ">
+            <h1 class="text-h3 xl:text-h2 2xl:text-h1  mb-6  hasEmphasize">
+              {{ .title | upper | markdownify }}
+            </h1>
+
+            {{ if .footnotes }}
+              <div
+                class="text-h6 xl:text-h4 text-dark font-primary font-bold leading-tight  ">
+                {{ .footnotes | markdownify }}
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+  <!-- /Banner -->
+
+  <!-- Country Map -->
+  {{ partial "country-pointer-map.html" . }}
+  <!-- /Country Map -->
+
+  <!-- Aims Story -->
+  {{ with.Params.aims_story }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div
+              class="section-intro justify-between xl:!flex-row xl:!gap-10 xl:!items-center">
+              <h2 class="title xl:!w-1/2 hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <div class="subtitle xl:!w-1/2">
+                {{ .subtitle | markdownify }}
+              </div>
+            </div>
+            {{ with .section_content }}
+              <div class="section-content">
+                <div
+                  class="flex flex-col lg:flex-row items-center gap-10 xl:gap-20">
+                  <div class="lg:w-[50%] xl:pr-20">
+                    <h3 class="mb-4">{{ .title | upper | markdownify }}</h3>
+                    <p class="mb-8">{{ .subtitle | markdownify }}</p>
+                    <div class="grid grid-cols-2 gap-10">
+                      {{ range .list }}
+                        <div>
+                          <div class="flex gap-4 items-center mb-4">
+                            {{ partial "process-file" (dict "Src" .icon) }}
+                            <img
+                              src="{{ .icon }}"
+                              alt=""
+                              class="size-8"
+                              width="32"
+                              height="32" />
+                            <h4 class="text-h5 inline-block font-semibold">
+                              {{ .title | markdownify }}
+                            </h4>
+                          </div>
+                          <p class="text-base">{{ .content | markdownify }}</p>
+                        </div>
+                      {{ end }}
+                    </div>
+                  </div>
+                  <div class="lg:w-[50%]">
+                    {{ partial "image" (dict "Src" .image "Alt" "Aims Story Image" "DisplayXL" "700x" "DisplayLG" "555x" "DisplayMD" "360x") }}
+                  </div>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Aims Story -->
+
+  <!-- Aims Governance -->
+  {{ partial "our-governance.html" . }}
+  <!-- /Aims Governance -->
+
+  <!-- News & Events -->
+  {{ with .Params.news_and_events }}
+    <section class="section">
+      <div class="container">
+        <div class="section-container">
+          <div class="section-intro ">
+            <h2 class="title  hasEmphasize">
+              {{ .title | upper | markdownify }}
+            </h2>
+            <div class="subtitle ">
+              {{ .subtitle | markdownify }}
+            </div>
+          </div>
+
+          <div class="section-content">
+            <div class="flex flex-col gap-6">
+              {{ range .featured_news }}
+
+                {{ $page := site.GetPage . }}
+                {{ partial "components/news-card-horizontal.html" (dict "Image" $page.Params.image "Badge" $page.Params.author "Title" $page.Title "Description" $page.Params.description "Button" (dict "enable" true "label" "Read More" "link" $page.Permalink)) }}
+              {{ end }}
+            </div>
+          </div>
+
+          {{ with .button }}
+            {{ if .enable }}
+              {{ partial "components/arrow-button.html" (dict "link" (relLangURL .link) "label" .label ) }}
+            {{ end }}
+          {{ end }}
+        </div>
+      </div>
+    </section>
+  {{ end }}
+  <!-- /News & Events -->
+
+  <!-- Why Mathematical Sciences -->
+  {{ with .Params.why_mathematical_sciences }}
+    <section class="section">
+      <div class="container">
+        <div class="section-container gap-20 lg:gap-10 lg:flex-row">
+          <div class="section-intro lg:w-[52%] xl:pr-10">
+            <h3 class="mb-4 hasEmphasize">{{ .title | markdownify }}</h3>
+            <div class="mb-8">
+              {{ .subtitle | markdownify }}
+            </div>
+            <div class="flex flex-col gap-4">
+              {{ range .bulletPoints }}
+                <div class="flex gap-2">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    class="min-w-4 mt-1"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M1.5 8C1.5 4.41015 4.41015 1.5 8 1.5C11.5899 1.5 14.5 4.41015 14.5 8C14.5 11.5899 11.5899 14.5 8 14.5C4.41015 14.5 1.5 11.5899 1.5 8Z"
+                      fill="#800000" />
+                    <path
+                      d="M10.75 6.5L7.08125 10L5.25 8.25"
+                      stroke="white"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+
+                  <span class=" inline-block text-dark">
+                    {{ . | markdownify }}
+                  </span>
+                </div>
+              {{ end }}
+            </div>
+          </div>
+          <div class="section-content lg:w-[48%] ">
+            {{ partial "image" (dict "Src" .image "Alt" "Why Mathematical Sciences Image" "DisplayXL" "900x" "DisplayLG" "555x" "DisplayMD" "360x" "Class" "sticky top-4") }}
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+  <!-- /Why Mathematical Sciences -->
+
+  <!-- Highlighted Programs -->
+  {{ range .Params.highlighted_programs }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro">
+              <h2 class="title hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <p class="subtitle">
+                {{ .subtitle | markdownify }}
+              </p>
+            </div>
+            <div class="section-content">
+              <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {{ range .slugs }}
+                  {{ $page := site.GetPage . }}
+                  {{ partial "components/program-card.html" (dict "Image" $page.Params.image "Badge" $page.Params.author "Title" $page.Title "Description" $page.Params.description "Button" (dict "enable" true "label" "Read More" "link" $page.Permalink)) }}
+                {{ end }}
+              </div>
+              {{ with .button }}
+                {{ if .enable }}
+                  <div class="mt-14">
+                    {{ partial "components/arrow-button.html" (dict "link" (relLangURL .link) "label" .label ) }}
+                  </div>
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Highlighted Programs -->
+
+  <!-- Get Involved -->
+  {{ with .Params.get_involved }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container gap-16 lg:gap-10 lg:flex-row-reverse">
+            <div class="section-intro lg:w-[52%] xl:pl-10">
+              <h3 class="mb-4 hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h3>
+              <div class="mb-8">
+                {{ .subtitle | markdownify }}
+              </div>
+              <div class="flex flex-col gap-4">
+                {{ range .bulletPoints }}
+                  <div class="flex gap-2 items-center">
+                    <svg
+                      width="16"
+                      height="17"
+                      viewBox="0 0 16 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12.6273 11.0713V12.6531C12.6273 13.3083 12.0961 13.8395 11.4408 13.8395H4.55949C3.90425 13.8395 3.37305 13.3083 3.37305 12.6531V8.50098"
+                        stroke="#800000"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path
+                        d="M15 12.6523V10.0791"
+                        stroke="#800000"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path
+                        d="M7.08789 3.34278L1.7304 5.62484C1.3015 5.80357 1 6.22681 1 6.72046C1 7.2141 1.3015 7.63734 1.7304 7.81607L7.08789 10.0981C7.36869 10.2152 7.67681 10.2798 8 10.2798C8.32319 10.2798 8.63131 10.2152 8.91211 10.0981L14.2696 7.81607C14.6985 7.63734 15 7.2141 15 6.72046C15 6.22681 14.6985 5.80357 14.2696 5.62484L8.91211 3.34278C8.63131 3.22573 8.32319 3.16113 8 3.16113C7.67681 3.16113 7.36869 3.22573 7.08789 3.34278Z"
+                        stroke="#800000"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+
+                    <span
+                      class=" inline-block text-dark text-h6 font-bold leading-none">
+                      {{ . | markdownify }}
+                    </span>
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+            <div class="section-content lg:w-[48%] ">
+              {{ partial "image" (dict "Src" .image "Alt" .title "DisplayXL" "900x" "DisplayLG" "555x" "DisplayMD" "360x" "Class" "sticky top-8 shadow-card rounded-xl") }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Get Involved -->
+
+  <!-- Our Partners -->
+  {{ $partners := .Site.GetPage "our-partners/_index.md" }}
+  {{ with  .Params.our_partners }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro">
+              <h2 class="title hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <p class="subtitle">
+                {{ .subtitle | markdownify }}
+              </p>
+            </div>
+            <div class="section-content">
+              <div class="row">
+                <div class="lg:col-10 mx-auto">
+                  <div class="flex flex-wrap gap-10 justify-center">
+                    {{ range $partners.Params.coat_of_arms }}
+                      <a
+                        href="{{ .link }}"
+                        {{ if strings.HasPrefix .link `http` }}
+                          target="_blank" rel="noopener"
+                        {{ end }}
+                        aria-label="visit {{ .title }}"
+                        class="flex flex-col items-center justify-between group border border-dark/10 hover:border-primary! p-6 transition duration-300">
+                        {{ partial "image" (dict "Src" .image "Alt" .title "Class" "w-[120px]! items-self-center mb-4" ) }}
+                        <p class="group-hover:text-primary mb-0">
+                          {{ .title | markdownify }}
+                        </p>
+                      </a>
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+              {{ if .button.enable }}
+                <div class="flex justify-center mt-14">
+                  {{ partial "components/arrow-button.html" (dict "link" (relLangURL .button.link) "label" .button.label ) }}
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Our Partners -->
+
+  <!-- Contact Us -->
+  {{ with .Params.contact_us }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div
+            class="section-container gap-10 flex-col-reverse lg:flex-row-reverse ">
+            <div class="section-intro lg:w-[52%] xl:pl-10">
+              {{/* FORM */}}
+              <form
+                action="{{ site.Params.contact_form_action }}"
+                method="POST"
+                class="bg-white border border-primary/20 hover:border-primary transition-all duration-300 p-6 lg:px-10 lg:py-14">
+                <div class="mb-6">
+                  <label for="name" class="form-label">
+                    Full Name <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    required
+                    class="form-input"
+                    placeholder="Andrew"
+                    type="text" />
+                </div>
+                <div class="mb-6">
+                  <label for="email" class="form-label">
+                    Email <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    class="form-input"
+                    required
+                    placeholder="example@email.com"
+                    type="email" />
+                </div>
+                <div class="mb-6">
+                  <label for="message" class="form-label">
+                    Message <span class="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    class="form-input"
+                    required
+                    placeholder="Write your message...."
+                    rows="4"></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-primary cursor-pointer py-3.5 px-4 w-full flex justify-center items-center hover:!bg-primary/80 transition-colors duration-300">
+                  <div class="flex items-center gap-2">
+                    <span>Send Message</span>
+                    <svg
+                      width="11"
+                      height="10"
+                      viewBox="0 0 11 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M8.90954 2.70378V8.74751C8.90954 8.97283 8.98588 9.16183 9.13857 9.31451C9.29125 9.4672 9.47999 9.54327 9.70477 9.54274C9.92956 9.54221 10.1183 9.46587 10.271 9.31372C10.4237 9.16156 10.5 8.97283 10.5 8.74751V0.795229C10.5 0.569914 10.4237 0.38118 10.271 0.229026C10.1183 0.0768722 9.92956 0.000530152 9.70477 0H1.75249C1.52717 0 1.33817 0.076342 1.18549 0.229026C1.0328 0.38171 0.956727 0.570444 0.957256 0.795229C0.957787 1.02001 1.03413 1.20901 1.18628 1.36223C1.33844 1.51544 1.52717 1.59152 1.75249 1.59046H7.79622L0.718689 8.66799C0.572897 8.81378 0.5 8.99934 0.5 9.22465C0.5 9.44997 0.572897 9.63552 0.718689 9.78131C0.864481 9.9271 1.05003 10 1.27535 10C1.50066 10 1.68622 9.9271 1.83201 9.78131L8.90954 2.70378Z"
+                        fill="white" />
+                    </svg>
+                  </div>
+                </button>
+              </form>
+            </div>
+            <div class="section-content lg:w-[48%]  flex flex-col">
+              <h3 class="lg:mb-8 hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h3>
+
+              <div class="h-full ">
+                {{ partial "image" (dict "Src" .image "Alt" .title "DisplayXL" "900x" "DisplayLG" "555x" "DisplayMD" "360x" "Class" "!size-full object-cover overflow-hidden shadow-card hidden lg:block") }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Contact Us -->
+{{ end }}

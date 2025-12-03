@@ -1,0 +1,42 @@
+@utility bg-gradient {
+  @apply bg-linear-to-b from-[rgba(249,249,249,1)] from-[0.53%] to-white to-[83.28%];
+}
+
+/* form style */
+@utility form-input {
+  @apply w-full rounded border-transparent bg-light px-6 py-4 text-text-dark placeholder:text-text-light focus:border-primary/50  focus:ring-transparent;
+}
+
+@utility form-label {
+  @apply mb-4 block font-secondary font-bold text-text-dark;
+}
+
+@utility shadow-card {
+  box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.05);
+}
+
+@utility shadow-card-hovered {
+  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+@utility hasEmphasize {
+  em {
+    font-style: normal;
+    @apply text-primary;
+  }
+}
+
+@utility stretch-link {
+  display: inline-block;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+@utility shadow-card {
+  box-shadow: 0px 4px 30px 0px #0000000d;
+}

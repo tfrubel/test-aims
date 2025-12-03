@@ -1,0 +1,131 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video) }}
+
+
+  <section class="section">
+    <div class="container" id="our-alumni-container">
+      <div class="badge mb-4">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12.6273 10.5708V12.1526C12.6273 12.8078 12.0961 13.339 11.4408 13.339H4.55949C3.90425 13.339 3.37305 12.8078 3.37305 12.1526V8.00049"
+            stroke="#800000"
+            stroke-width="1.5"
+            stroke-miterlimit="10"
+            stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path
+            d="M15 12.1528V9.57959"
+            stroke="#800000"
+            stroke-width="1.5"
+            stroke-miterlimit="10"
+            stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path
+            d="M7.08789 2.84278L1.7304 5.12484C1.3015 5.30357 1 5.72681 1 6.22046C1 6.7141 1.3015 7.13734 1.7304 7.31607L7.08789 9.59813C7.36869 9.71518 7.67681 9.77978 8 9.77978C8.32319 9.77978 8.63131 9.71518 8.91211 9.59813L14.2696 7.31607C14.6985 7.13734 15 6.7141 15 6.22046C15 5.72681 14.6985 5.30357 14.2696 5.12484L8.91211 2.84278C8.63131 2.72573 8.32319 2.66113 8 2.66113C7.67681 2.66113 7.36869 2.72573 7.08789 2.84278Z"
+            stroke="#800000"
+            stroke-width="1.5"
+            stroke-miterlimit="10"
+            stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+
+        <span>{{ .Params.our_alumni.badge }}</span>
+      </div>
+
+      <h2 class="mb-10 leading-none">
+        {{ .Params.our_alumni.title | upper | markdownify }}
+      </h2>
+      {{/* Shuffle Filter */}}
+      <div>
+        {{/* Nav Items by institutions */}}
+        {{ $regularPagesRecursive := where .Site.RegularPages "Section" "our-alumni" }}
+
+        {{/* store only institution from each regular pages */}}
+        {{ $institutions := slice }}
+        {{ range $regularPagesRecursive }}
+          {{ if not (in $institutions .Params.institution) }}
+            {{ $institutions = $institutions | append .Params.institution }}
+          {{ end }}
+        {{ end }}
+
+
+        <ul class="flex justify-center flex-wrap mb-12 max-w-max ">
+          <li>
+            <a
+              id="our-alumni-all-btn"
+              href="/our-alumni"
+              class="btn text-center shuffle-filter-btn"
+              >All</a
+            >
+          </li>
+          {{ range $institutions }}
+            <li>
+              <a
+                data-tabs-btn="{{ . | urlize }}"
+                href="/our-alumni{{ . | urlize | relLangURL }}"
+                class="btn text-center shuffle-filter-btn">
+                {{ . }}
+              </a>
+            </li>
+          {{ end }}
+        </ul>
+        <div class=" row g-4">
+          {{ $paginator:= .Paginate .RegularPagesRecursive }}
+          {{ range $paginator.Pages }}
+            <div
+              class="sm:col-6 lg:col-4 shuffle-item "
+              data-groups="{{ .Params.institution | urlize }}">
+              {{ partial "components/our-alumni-card.html" (dict "Image" .Params.image "Title" .Params.Title "Designation" .Params.designation "Institution" .Params.institution "RelPermalink" .RelPermalink "Badge" .Params.country "Passing_year" .Params.passing_year "Summary" .Summary) }}
+            </div>
+          {{ end }}
+
+          {{ partial "components/pagination.html" . }}
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const allBtn = document.getElementById("our-alumni-all-btn");
+      // get current url
+      const currentUrl = window.location.href;
+
+      // get all tabs buttons
+      const tabsButtons = document.querySelectorAll("[data-tabs-btn]");
+
+      // loop through all tabs buttons and add active class if current url matches the href
+      let matchFound = false;
+
+      tabsButtons.forEach((button) => {
+        const buttonUrl = button.getAttribute("href");
+        if (currentUrl.includes(buttonUrl) && buttonUrl !== "/our-alumni") {
+          button.classList.add("active");
+          allBtn.classList.remove("active");
+          // Focus into our-alumni-container id
+          document.getElementById("our-alumni-container").scrollIntoView({
+            behavior: "instant",
+          });
+          matchFound = true;
+        } else {
+          button.classList.remove("active");
+        }
+      });
+
+      // If no match was found or if we're on the main our-alumni page, activate the "All" button
+      if (
+        !matchFound ||
+        currentUrl.endsWith("/our-alumni") ||
+        currentUrl.endsWith("/our-alumni/")
+      ) {
+        allBtn.classList.add("active");
+      }
+    });
+  </script>
+{{ end }}

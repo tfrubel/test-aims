@@ -1,0 +1,53 @@
+<div
+  class="bg-body shadow-card hover:shadow-card-hovered transition-all duration-300 h-full flex flex-col justify-between">
+  <div>
+    {{ $image:= .Params.image }}
+    {{ if $image }}
+
+      <div class="w-full relative">
+        {{ if .Params.tag }}
+
+          <span
+            class="absolute bottom-4 right-4 text-sm bg-body/80 backdrop-blur-sm text-primary py-1.5 pt-2 px-3 font-bold ">
+            {{ .Params.tag }}
+          </span>
+        {{ end }}
+        {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full aspect-[16/11] object-cover") }}
+      </div>
+    {{ end }}
+    <div class="p-6 ">
+      {{ if .Params.button }}
+        <a
+          href="{{ .Params.button.link }}"
+          target="_blank"
+          class="text-decoration-none">
+          <h4 class="mb-4 text-h5">
+            {{ .Title | upper | markdownify }}
+          </h4>
+        </a>
+      {{ else }}
+        <a href="{{ .RelPermalink | relLangURL }}" class="text-decoration-none">
+          <h4 class="mb-4 text-h5">
+            {{ .Title | upper | markdownify }}
+          </h4>
+        </a>
+      {{ end }}
+
+      {{ if .Summary }}
+        <p class="mb-6">{{ .Summary | plainify | truncate 180 }}</p>
+      {{ else }}
+        <p class="mb-6">{{ .Description | plainify | truncate 180 }}</p>
+      {{ end }}
+    </div>
+  </div>
+  <div class="p-6 pt-0">
+    {{ if .Params.button }}
+      {{ partial "components/arrow-button.html" (dict "link" (.Params.button.link) "label" "Read More" "variation"
+        "outline")
+      }}
+    {{ else }}
+      {{ partial "components/arrow-button.html" (dict "link" (.RelPermalink) "label" "Read More" "variation" "outline") }}
+    {{ end }}
+
+  </div>
+</div>

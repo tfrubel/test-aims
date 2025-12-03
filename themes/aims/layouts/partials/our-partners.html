@@ -1,0 +1,36 @@
+
+{{ with site.GetPage "sections/our-partners" }}
+  {{ with .Params }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro">
+              <h2 class="title hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <p class="subtitle">
+                {{ .subtitle | markdownify }}
+              </p>
+            </div>
+            <div class="section-content">
+              <div class="flex flex-wrap gap-8 lg:gap-12">
+                {{ range .partners }}
+                  {{ if .text }}
+                    <div
+                      class="bg-white px-4 py-2 shadow-card max-w-max font-bold text-dark grid place-items-center ">
+                      {{ .text }}
+                    </div>
+                  {{ else }}
+                    {{ partial "image" (dict "Src" .image "Alt" .alt "Class" "w-auto h-auto object-contain") }}
+                  {{ end }}
+
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+{{ end }}

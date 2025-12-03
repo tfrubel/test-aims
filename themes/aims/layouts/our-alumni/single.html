@@ -1,0 +1,18 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" "OUR PEOPLE" "subtitle" .Params.subtitle "isButtons" false "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video) }}
+  <section class="section">
+    <div class="container min-h-screen">
+      {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "float-left inline-block mr-10 mb-10 md:!max-w-[400px] 2xl:!max-w-[650px] w-full" ) }}
+      <h2 class="pt-8">{{ .Title }}</h2>
+      <p class="mb-4">{{ .Params.country | upper }}</p>
+      <div class="text-lg mb-8">
+        {{ .Params.institution }} -
+        {{ .Params.passing_year }}
+      </div>
+
+      <div class="content">
+        {{ .Content }}
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,43 @@
+{{- $breadcrumb := .Breadcrumb | default true -}}
+<section class="!py-60 !pb-40 section relative overflow-hidden">
+  {{ partial "image" (dict "Src" "/images/shapes/triangle.svg" "Alt" "" "Loading" "eager" "Class" "w-full absolute bottom-0 left-0  " "Resize" false) }}
+  <div
+    class="banner-media overflow-hidden absolute top-0 left-0 w-full h-full  -z-10 before:bg-white/60  before:content-[''] before:absolute before:inset-0">
+    {{ if .BackgroundVideo }}
+      {{ partial "process-file" (dict "Src" .BackgroundVideo) }}
+      {{/* Render Video */}}
+      <video
+        autoplay
+        muted
+        loop
+        id="myVideo"
+        class="min-w-full min-h-full object-cover  ">
+        <source src="{{ .BackgroundVideo }}" type="video/mp4" />
+        Your browser does not support HTML5 video.
+      </video>
+    {{ else }}
+      {{/* Render Background Image */}}
+      {{ partial "image" (dict "Src" (or .BackgroundImage site.Params.default_background_image) "Alt" "Banner image" "Loading" "eager" "Class" "w-full !h-full object-cover page-header-animation relative -z-10" "Resize" false) }}
+    {{ end }}
+  </div>
+
+  <div class="container text-center">
+    <div class="lg:w-10/12 mx-auto">
+      <h1 class="text-h2 sm:text-h1-sm">
+        {{ T (printf "%s" (lower .title)) | default .title | title | upper }}
+      </h1>
+      <p class="mt-3">{{ .subtitle }}</p>
+      {{ if .buttons }}
+        <div
+          class="mt-10 flex items-center flex-col sm:flex-row justify-center gap-4">
+          {{ partial "components/arrow-button" (dict "link" site.Params.donate_link "label" "Donate Now" "variation" "solid" "class" "font-bold") }}
+          {{ partial "components/arrow-button" (dict "link" .buttons.link "label" .buttons.label "variation" "outline" "class" "font-bold") }}
+        </div>
+      {{ else }}
+        {{ if $breadcrumb }}
+          {{ partial "components/breadcrumb" (dict "Context" .Context "Class" "mt-3") }}
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+</section>

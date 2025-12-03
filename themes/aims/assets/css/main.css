@@ -1,0 +1,71 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin "./tailwind-plugin/tw-theme";
+@plugin "./tailwind-plugin/tw-bs-grid";
+@source "hugo_stats.json";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* FONT Secondary */
+@font-face {
+  font-family: 'Myriad Pro';
+  src: url('../fonts/MYRIADPRO-BOLD.OTF') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Myriad Pro';
+  src: url('../fonts/MYRIADPRO-SEMIBOLD.OTF') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* FONT Primary */
+@font-face {
+  font-family: 'Calibri';
+  src: url('../fonts/calibri-bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('../fonts/calibri-regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --font-secondary: 'Myriad Pro', sans-serif;
+  --font-primary: 'Calibri', sans-serif;
+}
+
+@import "./safe.css";
+@import "./utilities.css";
+
+@layer base {
+  @import "./base.css";
+}
+
+@layer components {
+  @import "./components.css";
+  @import "./navigation.css";
+  @import "./buttons.css";
+}
+
+@import "search.css";
+@import "social-share.css";
+@import "gallery-slider.css";
+@import "images.css";
+@import "toc.css";
+@import "tab.css";
+@import "accordion.css";
+@import "modal.css";
+@import "notice.css";
+
+@import "module-overrides.css";
+@import "custom.css";
+
+

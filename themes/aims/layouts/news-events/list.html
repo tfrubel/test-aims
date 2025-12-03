@@ -1,0 +1,196 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle ) }}
+
+  {{/* news */}}
+  {{ with .Params.news }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+              <div class="flex flex-col gap-y-6 mb-14">
+                {{ range .featured }}
+                  {{ $page := site.GetPage . }}
+                  {{ partial "components/news-card-horizontal.html" (dict "Image" $page.Params.image "Badge"
+                    $page.Params.author "Title" $page.Title "Description" $page.Params.description "Button" (dict
+                    "enable" true "label" "Read More" "link" $page.Permalink))
+                  }}
+                {{ end }}
+              </div>
+            </div>
+          </div>
+          {{ if .button.enable }}
+            {{ partial "components/arrow-button.html" (dict "link" .button.link "label" .button.label ) }}
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  {{/* / news */}}
+
+  {{/* Aims Network */}}
+  {{ with .Params.aims_network }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+              <div class="row mb-14">
+                {{ range .featured }}
+                  {{ $page := site.GetPage . }}
+                  <div class="md:col-6 lg:col-4">
+                    {{ with $page }}
+                      {{ partial "components/news-card-secondary.html" . }}
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+          {{ if .button.enable }}
+            {{ partial "components/arrow-button.html" (dict "link" .button.link "label" .button.label ) }}
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  {{/* Aims Network */}}
+
+  {{/* News From The Centres */}}
+  {{ with .Params.news_from_centers_group }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+              <div class=" grid lg:grid-cols-2 gap-10">
+                {{ range .centres }}
+                  <div
+                    class="border border-dark/20 p-10 hover:border-dark transition duration-300">
+                    <h3 class="mb-5">{{ .centre | markdownify }}</h3>
+                    <ul class="list-disc ml-5 space-y-3">
+                      {{ range .news_list }}
+                        <li class="">
+                          <a
+                            class="hover:text-primary"
+                            href="{{ .link }}"
+                            target="_blank"
+                            >{{ .label }}
+                            <svg
+                              class="inline ml-1"
+                              stroke="currentColor"
+                              fill="currentColor"
+                              stroke-width="0"
+                              viewBox="0 0 12 16"
+                              width="0.9em"
+                              height="0.9em"
+                              xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                fill-rule="evenodd"
+                                d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"></path>
+                            </svg>
+                          </a>
+                        </li>
+                      {{ end }}
+                    </ul>
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  {{/* News From The Centres */}}
+
+  {{/* Aim in the news */}}
+  {{ with .Params.aims_in_the_news }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+              <div class="row mb-14">
+                {{ range .featured }}
+                  {{ $page := site.GetPage . }}
+                  <div class="md:col-6 lg:col-4">
+                    {{ with $page }}
+                      {{ partial "components/news-card-secondary.html" . }}
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+          {{ if .button.enable }}
+            {{ partial "components/arrow-button.html" (dict "link" .button.link "label" .button.label ) }}
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  {{/* Aim in the news */}}
+
+  {{/* Press Realese */}}
+  {{ with .Params.press_releases }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+              <div class="row mb-14">
+                {{ range .featured }}
+                  {{ $page := site.GetPage . }}
+                  <div class="md:col-6">
+                    {{ with $page }}
+                      {{ partial "components/press-news-card.html" . }}
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+          {{ if .button.enable }}
+            {{ partial "components/arrow-button.html" (dict "link" .button.link "label" .button.label ) }}
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  {{/* Press Realese */}}
+
+  {{/* Events */}}
+  {{ with .Params.events }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+              <div class="row mb-14">
+                {{ range .featured }}
+                  {{ $page := site.GetPage . }}
+                  <div class="md:col-6">
+                    {{ with $page }}
+                      {{ partial "components/event-card" (dict "Context" . "isSmall" true) }}
+                    {{ end }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+          {{ if .button.enable }}
+            {{ partial "components/arrow-button.html" (dict "link" .button.link "label" .button.label ) }}
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  {{/* Events */}}
+{{ end }}

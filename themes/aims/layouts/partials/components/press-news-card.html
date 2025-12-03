@@ -1,0 +1,45 @@
+{{- $image := .Params.image | default "/images/image-placeholder.png" -}}
+{{- $badge := .PublishDate | default "Default" -}}
+{{- $title := .Title | default "Default Title" -}}
+{{- $description := .Description | default "Default description text goes here. This is a placeholder for the news card description." -}}
+
+{{- $buttonLabel := .Params.button.label | default "Learn More" -}}
+{{- $buttonLink := .Permalink| default "Read More" -}}
+
+
+<div
+  class="border border-primary/10 hover:border-primary transition-all duration-300 p-6 ">
+  <div class="flex flex-col md:flex-row gap-6 ">
+    {{/* Left Side */}}
+    <div class="md:w-[40%] ">
+      {{ partial "image" (dict "Src" $image "Alt" $title "Class" "w-full !h-full lg:min-h-[300px] object-cover " "Size" "600x350") }}
+    </div>
+
+    {{/* Right Side */}}
+    <div class="md:w-[60%] ">
+      <div class="flex flex-col justify-between h-full md:py-4">
+        <div>
+          {{/* Badge */}}
+          <span class="px-3 py-2 text-primary bg-primary/10 text-sm mb-2"
+            >{{ time.Format ":date_long" $badge }}</span
+          >
+
+          {{/* Title */}}
+          <a
+            href="{{ relLangURL $buttonLink }}"
+            class="h3 mb-4 hover:text-primary"
+            ><h3 class="text-h6 xl:text-h5 font-bold mb-4">{{ $title }}</h3></a
+          >
+
+          {{/* Description */}}
+          <p class="text-base text-text mb-6">{{ $description }}</p>
+        </div>
+
+        {{/* Button */}}
+        
+          {{ partial "components/arrow-button.html" (dict "link" (relLangURL $buttonLink) "label" $buttonLabel  "variation" "outline") }}
+       
+      </div>
+    </div>
+  </div>
+</div>

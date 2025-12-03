@@ -1,0 +1,24 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video) }}
+
+
+  <!-- Aims in the News-->
+  <section class="section">
+    <div class="container">
+      <div class="section-container">
+        <div class="section-content">
+          <div class="row gap-y-6 mb-12">
+            {{ $paginator:= .Paginate .RegularPages }}
+            {{ range $paginator.Pages }}
+              <div class="md:col-6 lg:col-4">
+                {{ partial "components/news-card-secondary.html" . }}
+              </div>
+            {{ end }}
+          </div>
+          {{ partial "components/pagination.html" . }}
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /Aims in the News-->
+{{ end }}

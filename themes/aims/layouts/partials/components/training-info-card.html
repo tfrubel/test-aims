@@ -1,0 +1,11 @@
+<div class="p-8 bg-white shadow-card h-full">
+    <div class="row items-center gap-y-6">
+        <div class="{{if eq .card_type  `horizontal`}} col-12 {{end}} {{if eq .card_type  `horizontal`}} lg:col-7 {{end}} ">
+            {{ partial "image" (dict "Src" .image "Alt" .title "Class" "size-full") }}
+        </div>
+        <div class="{{if eq .card_type  `horizontal`}} col-12 {{end}} {{if eq .card_type  `horizontal`}} lg:col-5 {{end}} ">
+            <h3 class="mb-4 text-h4">{{ .title | upper | markdownify }}</h3>
+            <p>{{ .content | markdownify }}</p>
+        </div>
+    </div>
+</div>

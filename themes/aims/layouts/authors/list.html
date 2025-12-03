@@ -1,0 +1,16 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video) }}
+
+
+  <section class="section">
+    <div class="container">
+      <div class="row">
+        {{ range .RegularPages }}
+          <div class="md:col-6 lg:col-4 mb-14">
+            {{ partial "components/author-card" . }}
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

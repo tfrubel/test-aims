@@ -1,0 +1,109 @@
+{{ define "main" }}
+  <!-- Page Header -->
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle ) }}
+
+
+  <!-- Donorbox Form -->
+  {{ with .Params.donorbox }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container  ">
+            <div class="section-intro lg:!w-1/2 hidden lg:block">
+              <h2 class="title">{{ .title | markdownify }}</h2>
+              <p class="subtitle">{{ .subtitle }}</p>
+            </div>
+            <div class="section-content">
+              <script
+                src="https://donorbox.org/widget.js"
+                paypalExpress="false"></script>
+              <iframe
+                src="{{ .donorBox_iframe_src }}"
+                name="donorbox"
+                allowpaymentrequest="allowpaymentrequest"
+                seamless="seamless"
+                frameborder="0"
+                scrolling="no"
+                height="900px"
+                width="100%"
+                style="max-width: 400px; min-width: 250px; max-height:none!important; margin-inline:auto"
+                allow="payment"></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+
+
+  <!-- Why Support AIMS? -->
+  {{ with .Params.why_support_aims }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+              <div class="row gap-y-5">
+                {{ range .support_list }}
+                  <div class="sm:col-6 lg:col-4">
+                    {{ partial "components/support-card" . }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- Why Support AIMS? -->
+
+  <!-- Donate Channel -->
+  {{ with .Params.donate_channel }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+
+
+            <div class="section-content">
+              <div class="row gap-y-5">
+                {{ range .donate_list }}
+                  <div class="sm:col-6 lg:col-4 xl:col-3">
+                    {{ partial "components/donate-card" . }}
+                  </div>
+                {{ end }}
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- Donate Channel -->
+
+  <!-- Other's Way TO Give -->
+  {{ with .Params.donate_others_way }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+              <div class="row gap-y-5">
+                {{ range .list }}
+                  <div class="md:col-6 lg:col-4">
+                    {{ partial "components/donate-card-secondary" . }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+{{ end }}

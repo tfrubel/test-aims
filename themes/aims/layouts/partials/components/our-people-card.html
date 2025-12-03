@@ -1,0 +1,36 @@
+{{- $image := .Image -}}
+{{- $title := .Title -}}
+{{- $designation := .Designation -}}
+{{- $institution := .Institution -}}
+{{- $relPermalink := .RelPermalink -}}
+
+
+<div
+  class="relative group  hover:-translate-y-1 transition-all duration-300 h-full!">
+  {{ partial "image" (dict "Src" $image "Context" .Page "Alt" $title "Class" "w-full relative -z-10 !max-h-[445px] !min-h-[445px] object-cover" "DisplayXL" "450x" "DisplayLG" "380x" "DisplayMD" "360x" ) }}
+  <div
+    class="mx-6 text-center flex flex-col py-6 bg-white -mt-10 shadow-card relative isolate px-5">
+    <div
+      class="h-3 w-full bg-primary absolute top-0 left-0 group-hover:h-full transition-all duration-500 -z-10"></div>
+    <div class="mb-1">
+      <a
+        href="{{ $relPermalink }}"
+        class="stretch-link text-h5 font-bold text-dark group-hover:text-white transition-all duration-500 leading-tight line-clamp-1"
+        >{{ $title | upper }}</a
+      >
+    </div>
+    <span
+      class="mb-2 group-hover:text-white/70 transition-all duration-500 line-clamp-1"
+      >{{ $designation }}</span
+    >
+    <span
+      class="text-primary text-base font-bold group-hover:text-white transition-all duration-500"
+      >{{ $institution }}</span
+    >
+  </div>
+  <a
+    href="{{ $relPermalink }}"
+    aria-hidden="true"
+    tabindex="-1"
+    class="stretch-link pointer-events-none"></a>
+</div>

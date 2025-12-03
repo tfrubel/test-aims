@@ -1,0 +1,12 @@
+{{/* This partial processes a file from assets folder and makes it available for use. */}}
+{{/* {{ partial "process-file.html" (dict "Src" .file ) }} */}}
+{{- $src := .Src -}}
+
+{{- $file := resources.Get $src -}}
+
+{{- if $file }}
+  {{ $fileUrl := $file.RelPermalink }}
+{{- else }}
+  <!-- File not found: {{ $src }} -->
+  <div>File not found: {{ $src }}</div>
+{{- end }}

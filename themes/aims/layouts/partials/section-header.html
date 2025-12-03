@@ -1,0 +1,30 @@
+<div class="section-intro justify-between xl:!flex-row xl:!gap-10 xl:!items-center">
+    <div class="xl:!w-3/5">
+        {{ if .badge }}
+        <div class="flex mb-4">
+            <span class="btn border font-normal border-primary px-3 py-1.5 text-primary flex items-center gap-2 ">
+                <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12.6273 11.0713V12.6531C12.6273 13.3083 12.0961 13.8395 11.4408 13.8395H4.55949C3.90425 13.8395 3.37305 13.3083 3.37305 12.6531V8.50098"
+                        class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M15 12.6523V10.0791" class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                        d="M7.08789 3.34278L1.7304 5.62484C1.3015 5.80357 1 6.22681 1 6.72046C1 7.2141 1.3015 7.63734 1.7304 7.81607L7.08789 10.0981C7.36869 10.2152 7.67681 10.2798 8 10.2798C8.32319 10.2798 8.63131 10.2152 8.91211 10.0981L14.2696 7.81607C14.6985 7.63734 15 7.2141 15 6.72046C15 6.22681 14.6985 5.80357 14.2696 5.62484L8.91211 3.34278C8.63131 3.22573 8.32319 3.16113 8 3.16113C7.67681 3.16113 7.36869 3.22573 7.08789 3.34278Z"
+                        class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                {{ .badge | markdownify }}
+            </span>
+        </div>
+        {{ end }}
+
+        <h2 class="title  hasEmphasize">
+            {{ .title | upper | markdownify }}
+        </h2>
+    </div>
+    <div class="subtitle xl:!w-2/5">
+        {{ .subtitle | markdownify }}
+    </div>
+</div>

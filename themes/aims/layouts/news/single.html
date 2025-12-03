@@ -1,0 +1,100 @@
+{{ define "main" }}
+  <section class="section-lg relative pb-0">
+    <div class="w-full h-[700px] bg-light absolute top-0 left-0 z-[-10]"></div>
+    <div class="container">
+      <div>
+        <h1 class="text-h2-sm md:text-h2 mb-4">
+          {{ .Title | upper | markdownify }}
+        </h1>
+        <div class="flex items-center gap-3 mb-12">
+          <div class="flex items-center gap-2 text-primary">
+            <span>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0.998698 13.6663H12.9987C13.1755 13.6663 13.3451 13.5961 13.4701 13.4711C13.5951 13.3461 13.6654 13.1765 13.6654 12.9997V2.99967C13.6654 2.82286 13.5951 2.65329 13.4701 2.52827C13.3451 2.40325 13.1755 2.33301 12.9987 2.33301H10.332V0.999674C10.332 0.822863 10.2618 0.653294 10.1368 0.52827C10.0117 0.403246 9.84218 0.333008 9.66536 0.333008C9.48855 0.333008 9.31898 0.403246 9.19396 0.52827C9.06894 0.653294 8.9987 0.822863 8.9987 0.999674V2.33301H4.9987V0.999674C4.9987 0.822863 4.92846 0.653294 4.80344 0.52827C4.67841 0.403246 4.50884 0.333008 4.33203 0.333008C4.15522 0.333008 3.98565 0.403246 3.86063 0.52827C3.7356 0.653294 3.66536 0.822863 3.66536 0.999674V2.33301H0.998698C0.821887 2.33301 0.652318 2.40325 0.527293 2.52827C0.402269 2.65329 0.332031 2.82286 0.332031 2.99967V12.9997C0.332031 13.1765 0.402269 13.3461 0.527293 13.4711C0.652318 13.5961 0.821887 13.6663 0.998698 13.6663ZM1.66536 3.66634H12.332V5.66634H1.66536V3.66634ZM1.66536 6.99967H12.332V12.333H1.66536V6.99967Z"
+                  class="fill-primary" />
+              </svg>
+            </span>
+            <span> {{ time.Format ":date_long" .PublishDate }} </span>
+          </div>
+          <div class="flex items-center gap-2 text-primary">
+            <span>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1 7C1 7.78793 1.15519 8.56815 1.45672 9.2961C1.75825 10.0241 2.20021 10.6855 2.75736 11.2426C3.31451 11.7998 3.97595 12.2417 4.7039 12.5433C5.43185 12.8448 6.21207 13 7 13C7.78793 13 8.56815 12.8448 9.2961 12.5433C10.0241 12.2417 10.6855 11.7998 11.2426 11.2426C11.7998 10.6855 12.2417 10.0241 12.5433 9.2961C12.8448 8.56815 13 7.78793 13 7C13 5.4087 12.3679 3.88258 11.2426 2.75736C10.1174 1.63214 8.5913 1 7 1C5.4087 1 3.88258 1.63214 2.75736 2.75736C1.63214 3.88258 1 5.4087 1 7Z"
+                  class="stroke-primary"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M7 3.6665V6.99984L9 8.99984" class="fill-primary" />
+                <path
+                  d="M7 3.6665V6.99984L9 8.99984"
+                  class="stroke-primary"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span> {{ .ReadingTime }} Min Read </span>
+          </div>
+        </div>
+        {{ $image := .Params.image }}
+        {{ if $image }}
+          <div class="relative overflow-hidden">
+            {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full h-[500px]!  object-cover") }}
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  <section class="section pt-10">
+    <div class="container">
+      <div class="section-container">
+        <div class="content">
+          {{ .Content | markdownify }}
+        </div>
+        <div class="flex items-center mt-10">
+          <h5>{{ T "share" }} :</h5>
+          {{ partial "social-share" (dict "Context" . "Class" "share-icons" "Title" .Title "Whatsapp" false
+            "Telegram" false "Linkedin" false "Pinterest" false "Tumblr" false "Vk" false "Reddit" false)
+          }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related news -->
+  {{ $related := site.RegularPages.Related . | first 10 }}
+  {{ $related = $related | shuffle | first 3 }}
+  {{ with $related }}
+    <section class="section bg-light">
+      <div class="container">
+        <div class="section-container">
+          <div class="section-intro ">
+            <h2 class="h3 uppercase">{{ T "related_news" }}</h2>
+          </div>
+          <div class="section-content">
+            <div class="row">
+              {{ range . }}
+                <div class="lg:col-4 md:col-6 mb-14">
+                  {{ partial "components/news-card-secondary" . }}
+                </div>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+
+{{ end }}

@@ -1,0 +1,95 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video "Breadcrumb" true) }}
+
+  {{/* Loop through subsections of "our-people" */}}
+  {{ range .Sections }}
+    <section class="section">
+      <div class="container">
+        <div class="section-container">
+          <div class="section-intro ">
+            <h2 class="title  hasEmphasize">
+              {{ .Title | upper | markdownify }}
+            </h2>
+            <div class="subtitle ">{{ .Description | markdownify }}</div>
+          </div>
+
+          <div class="section-content">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {{ range .Pages }}
+                {{ partial "components/our-people-card.html" (dict "Image" .Params.image "Title" .Title "Designation" .Params.designation "Institution" .Params.institution "RelPermalink" .RelPermalink) }}
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+
+
+  <!-- Governance of Other Centres -->
+  {{ with.Params.centre_link_section }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro ">
+              <h2 class="title  hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <div class="subtitle">
+                {{ .subtitle | markdownify }}
+              </div>
+            </div>
+
+            <div class="section-content">
+              <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {{ range .governance_links }}
+                  {{ partial "components/governance-link-card.html" . }}
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Governance of Other Centres -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const allBtn = document.getElementById("our-people-all-btn");
+      // get current url
+      const currentUrl = window.location.href;
+
+      // get all tabs buttons
+      const tabsButtons = document.querySelectorAll("[data-tabs-btn]");
+
+      // loop through all tabs buttons and add active class if current url matches the href
+      let matchFound = false;
+
+      tabsButtons.forEach((button) => {
+        const buttonUrl = button.getAttribute("href");
+        if (currentUrl.includes(buttonUrl) && buttonUrl !== "/our-people") {
+          button.classList.add("active");
+          allBtn.classList.remove("active");
+          // Focus into our-people-container id
+          document.getElementById("our-people-container").scrollIntoView({
+            behavior: "instant",
+          });
+          matchFound = true;
+        } else {
+          button.classList.remove("active");
+        }
+      });
+
+      // If no match was found or if we're on the main our-people page, activate the "All" button
+      if (
+        !matchFound ||
+        currentUrl.endsWith("/our-people") ||
+        currentUrl.endsWith("/our-people/")
+      ) {
+        allBtn.classList.add("active");
+      }
+    });
+  </script>
+{{ end }}

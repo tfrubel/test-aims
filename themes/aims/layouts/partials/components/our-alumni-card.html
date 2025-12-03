@@ -1,0 +1,43 @@
+{{- $image := .Image -}}
+{{- $badge := .Badge -}}
+{{- $passing_year := .Passing_year -}}
+{{- $title := .Title -}}
+{{- $summary := .Summary -}}
+{{- $designation := .Designation -}}
+{{- $institution := .Institution -}}
+{{- $relPermalink := .RelPermalink -}}
+
+
+<div
+  class="relative hover:shadow-card hover:-translate-y-1 transition-all duration-300 ">
+  <div class="relative">
+    {{ partial "image" (dict "Src" $image "Context" .Page "Alt" $title "Class" "w-full relative -z-10 max-h-[284px] object-cover" "DisplayXL" "450x" "DisplayLG" "380x" "DisplayMD" "360x" ) }}
+    <div class="absolute right-4.5 bottom-4">
+      <div class="py-2 px-3 leading-none text-white bg-primary">
+        {{ $badge }}
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col py-6 bg-white  isolate px-5">
+
+    <span
+      class=" text-h5 font-bold text-dark  leading-tight line-clamp-1 mb-2"
+      >{{ $title | upper }}</span
+    >
+
+
+    <div class="text-primary mb-4">{{ $institution }} {{ $passing_year }}</div>
+
+    <div class="line-clamp-4">
+      {{ .Summary }}
+    </div>
+
+    <span
+      class="mb-2 group-hover:text-white/70 transition-all duration-500 line-clamp-1"
+      >{{ $designation }}</span
+    >
+ 
+    {{ partial "components/arrow-button.html" (dict "link" $relPermalink "label" "Read More" "variation" "outline" "class" "mt-8") }}
+  </div>
+  </a>
+</div>

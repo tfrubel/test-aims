@@ -1,0 +1,91 @@
+{{ define "main" }}
+  <section class="section-lg">
+    <div class="container">
+      <article>
+        <!-- Event Hero Image -->
+        {{ $image := .Params.image }}
+        {{ if $image }}
+          <div class="mb-10 relative overflow-hidden rounded-lg">
+            {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full h-100! object-cover") }}
+            <!-- Event Type Badge -->
+            {{ if .Params.event.type }}
+              <div class="absolute top-4 left-4">
+                <span
+                  class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium uppercase tracking-wide">
+                  {{ .Params.event.type | humanize }}
+                </span>
+              </div>
+            {{ end }}
+          </div>
+        {{ end }}
+
+
+        <!-- Event Title -->
+        <div class="mb-8">
+          <h1 class="mb-4 text-primary text-h2">
+            {{ .Title | upper }}
+          </h1>
+        </div>
+
+        <!-- Event Details Card -->
+        {{ if .Params.event }}
+          <div class="bg-light  p-6 md:p-8 mb-10">
+            <div class="grid md:grid-cols-2 gap-6">
+              <!-- Date and Time -->
+              {{ if .Params.event.date }}
+                <div class="flex items-start">
+                  <div class="bg-primary  py-2 px-3 mr-4 flex-shrink-0">
+                    <i class="fa-regular fa-calendar text-white text-xl"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-semibold mb-1">Date & Time</h5>
+                    <p class="mb-1">
+                      {{ time.Format "Monday, January 2, 2006" .Params.event.date }}
+                    </p>
+                    {{ if .Params.event.time }}
+                      <p>
+                        <i class="fa-regular fa-clock mr-1"></i
+                        >{{ .Params.event.time }}
+                      </p>
+                    {{ end }}
+                  </div>
+                </div>
+              {{ end }}
+
+
+              <!-- Location -->
+              {{ if .Params.event.location }}
+                <div class="flex items-start">
+                  <div class="bg-primary py-2 px-3 mr-4 flex-shrink-0">
+                    <i class="fa-solid fa-location-dot text-white text-xl"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-semibold mb-1">Location</h5>
+                    <p class="mb-1">{{ .Params.event.location }}</p>
+                    <p class="capitalize">
+                      <i class="fa-solid fa-location-dot  mr-1"></i
+                      >{{ .Params.event.mode }}
+                    </p>
+                  </div>
+                </div>
+              {{ end }}
+            </div>
+
+            <!-- Registration/Action Button -->
+            <div class="text-center mt-8">
+              <a href="#register" class="btn btn-primary">
+                <i class="fa-solid fa-user-plus mr-2"></i>Register Now
+              </a>
+            </div>
+          </div>
+        {{ end }}
+
+
+        <!-- Event Content -->
+        <div class="content mb-10">
+          {{ .Content }}
+        </div>
+      </article>
+    </div>
+  </section>
+{{ end }}

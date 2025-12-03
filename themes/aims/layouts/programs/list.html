@@ -1,0 +1,80 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video) }}
+
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-cols-1 gap-10">
+        {{/* Each PROGRAMS */}}
+        {{ range .Params.featured_programs }}
+
+          <div class="group mb-20">
+            {{/* Banner Image */}}
+            {{ partial "process-file" (dict "Src" .banner_image) }}
+            <div
+              class=" bg-primary/5 p-10 overflow-hidden  relative group mb-10">
+              {{ partial "image" (dict "Src" .banner_image "Alt" .program_name "Class" "absolute inset-0 !h-full w-full object-cover -z-10 opacity-30 transition duration-300" "Resize" false) }}
+
+
+              <div class=" h-full flex justify-between items-center  gap-5">
+                <div class=" ">
+                  <h2 class="text-h2 mb-2 text-dark leading-none">
+                    {{ .program_name }}
+                  </h2>
+                  <p class="">{{ .short_description }}</p>
+                </div>
+                <a
+                  href="{{ .button.link | urlize }}"
+                  aria-label="{{ .button.text }}"
+                  class="bg-primary/60 group-hover:bg-primary transition duration-300 h-full aspect-square grid place-items-center text-[3rem] lg:p-2 text-white cursor-pointer ">
+                  <svg
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {{/* Contents */}}
+            <div class="space-y-10">
+              {{ range .program_list }}
+                {{ $single := site.GetPage (printf "/programs/%s" .source) }}
+
+                {{ with $single.Params }}
+                  {{ partial "components/program-card-horizontal.html" (dict "Image" $single.Params.image "Badge" $single.Params.author "Title" $single.Title "Description" $single.Params.description "Button" (dict "enable" true "label" "Read More" "link" $single.Permalink)) "Context" $single }}
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-container">
+        <div class="section-content">
+          <div class="row gap-y-6 mb-12">
+            {{ $paginator:= .Paginate .RegularPages }}
+            {{ range $paginator.Pages }}
+              <div class="md:col-6 lg:col-4">
+                {{ partial "components/news-card-secondary.html" . }}
+              </div>
+            {{ end }}
+          </div>
+          {{ partial "components/pagination.html" . }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

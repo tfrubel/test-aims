@@ -1,0 +1,44 @@
+{{- $link := .link -}}
+{{- $label := .label -}}
+{{- $variation := .variation -}}
+{{- $class := .class -}}
+
+
+<a
+  class="group/arrowbtn flex max-w-max items-center gap-2 border border-transparent bg-primary hover:bg-primary/80 px-5.5 py-2.5  text-white capitalize transition {{ if eq $variation `outline` }}
+    bg-transparent border-primary! text-primary! hover:text-white!
+  {{ end }} {{ $class }} rounded-lg"
+  href="{{ $link | absURL }}"
+  {{ if strings.HasPrefix $link `http` }}
+    target="_blank" rel="noopener"
+  {{ end }}
+  aria-label="{{ $label }}">
+  <span class="mt-0.5 leading-none font-base text-base">{{ $label }}</span>
+  <div
+    class="relative flex size-(--icon-size) overflow-hidden [--icon-size:12px]">
+    <svg
+      class="absolute inset-0 size-(--icon-size) transition-transform duration-300 group-hover/arrowbtn:translate-x-full group-hover/arrowbtn:-translate-y-full"
+      width="10"
+      height="10"
+      viewBox="0 0 10 10"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M8.40954 2.70378V8.74751C8.40954 8.97283 8.48588 9.16183 8.63857 9.31451C8.79125 9.4672 8.97999 9.54327 9.20477 9.54274C9.42956 9.54221 9.61829 9.46587 9.77097 9.31372C9.92366 9.16156 10 8.97283 10 8.74751V0.795229C10 0.569914 9.92366 0.38118 9.77097 0.229026C9.61829 0.0768722 9.42956 0.000530152 9.20477 0H1.25249C1.02717 0 0.838172 0.076342 0.685488 0.229026C0.532804 0.38171 0.456727 0.570444 0.457256 0.795229C0.457787 1.02001 0.534129 1.20901 0.686283 1.36223C0.838436 1.51544 1.02717 1.59152 1.25249 1.59046H7.29622L0.218689 8.66799C0.072897 8.81378 0 8.99934 0 9.22465C0 9.44997 0.072897 9.63552 0.218689 9.78131C0.364481 9.9271 0.550034 10 0.775348 10C1.00066 10 1.18622 9.9271 1.33201 9.78131L8.40954 2.70378Z"
+        class="fill-white {{ if eq $variation `outline` }}
+          fill-primary!
+        {{ end }}" />
+    </svg>
+    <svg
+      class="absolute inset-0 size-(--icon-size) -translate-x-full translate-y-full transition-transform duration-300 group-hover/arrowbtn:translate-x-0 group-hover/arrowbtn:translate-y-0"
+      width="10"
+      height="10"
+      viewBox="0 0 10 10"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M8.40954 2.70378V8.74751C8.40954 8.97283 8.48588 9.16183 8.63857 9.31451C8.79125 9.4672 8.97999 9.54327 9.20477 9.54274C9.42956 9.54221 9.61829 9.46587 9.77097 9.31372C9.92366 9.16156 10 8.97283 10 8.74751V0.795229C10 0.569914 9.92366 0.38118 9.77097 0.229026C9.61829 0.0768722 9.42956 0.000530152 9.20477 0H1.25249C1.02717 0 0.838172 0.076342 0.685488 0.229026C0.532804 0.38171 0.456727 0.570444 0.457256 0.795229C0.457787 1.02001 0.534129 1.20901 0.686283 1.36223C0.838436 1.51544 1.02717 1.59152 1.25249 1.59046H7.29622L0.218689 8.66799C0.072897 8.81378 0 8.99934 0 9.22465C0 9.44997 0.072897 9.63552 0.218689 9.78131C0.364481 9.9271 0.550034 10 0.775348 10C1.00066 10 1.18622 9.9271 1.33201 9.78131L8.40954 2.70378Z"
+        class="fill-white" />
+    </svg>
+  </div>
+</a>

@@ -1,0 +1,14 @@
+<div
+    class="border border-primary/20 py-8 px-6 bg-white flex flex-col h-full justify-between hover:border-primary/80 transition-colors duration-300">
+    <h3 class="text-h5 mb-3">{{ .title | upper | markdownify }}</h3>
+    <p class="mb-6 font-base">{{ .content | markdownify }}</p>
+    <div class="flex gap-3">
+        {{ with .download_button }}
+        <a href="{{ .link }}" class="btn btn-outline-primary font-normal" target="_blank">{{.name}}</a>
+        {{ end }}
+
+        {{ with .view_button }}
+        <a href="{{ .link }}" class="btn btn-outline-primary font-normal" target="_blank">{{.name}}</a>
+        {{ end }}
+    </div>
+</div>

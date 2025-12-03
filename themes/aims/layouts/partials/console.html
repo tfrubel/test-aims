@@ -1,0 +1,69 @@
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
+  rel="stylesheet" />
+<style>
+  pre[class*="language-"] {
+    margin: 0;
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+  }
+  code[class*="language-"] {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .json-renderer {
+    // position: fixed;
+
+    overflow-y: scroll;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    width: 100%;
+  }
+</style>
+
+{{ $jsonData := jsonify (dict "indent" "  ") .Context }}
+
+
+<!-- JSON Renderer -->
+
+<div class="json-renderer py-6 ">
+  <div style="display: flex;">
+    <span class="token property">Results : </span>
+    <span class="token number" id="json-array-length"> Not an array</span>
+  </div>
+  <pre>
+    <code class="language-json">
+    {{ $jsonData }}</code></pre>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script>
+   // Parse JSON data from Hugo
+  const jsonData = {{ $jsonData | safeJS }};
+
+  // Function to calculate the length of an array within JSON data
+  function calculateArrayLength(data) {
+    let totalLength = 0;
+    if (Array.isArray(data)) {
+      totalLength = data.length;
+    } else if (typeof data === "object" && data !== null) {
+      Object.values(data).forEach((value) => {
+        if (Array.isArray(value)) {
+          totalLength += value.length;
+        }
+      });
+    }
+    return totalLength;
+  }
+
+  // Update array length on the button
+  const arrayLength = calculateArrayLength(jsonData);
+  document.getElementById("json-array-length").textContent = arrayLength;
+</script>

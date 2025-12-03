@@ -1,0 +1,166 @@
+<header class="header {{ if site.Params.navbar_fixed }}
+    sticky top-0
+  {{ else }} absolute top-0 w-full {{ end }} z-30 bg-transparent">
+  <nav class="navbar container-lg">
+    <!-- logo -->
+    <div class="order-0">
+      <!-- navbar brand/logo -->
+      <a class="navbar-brand block" href="{{ site.Home.RelPermalink }}">
+        {{ partial "logo" }}
+      </a>
+    </div>
+    <!-- navbar toggler -->
+    <input id="nav-toggle" type="checkbox" class="hidden" />
+    <label for="nav-toggle"
+      class="order-3 cursor-pointer flex items-center lg:hidden text-text-dark lg:order-1  mr-2">
+      <svg id="show-button" class="h-8 fill-current block" viewBox="0 0 20 20">
+        <title>Menu Open</title>
+        <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+      </svg>
+      <svg id="hide-button" class="h-8 fill-current hidden" viewBox="0 0 20 20">
+        <title>Menu Close</title>
+        <polygon points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2" transform="rotate(45 10 10)">
+        </polygon>
+      </svg>
+    </label>
+    <!-- /navbar toggler -->
+
+    <!-- main navbar -->
+    <ul id="nav-menu"
+      class="navbar-nav order-3 hidden lg:flex w-full pb-6 lg:order-1 lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8">
+      {{ $currentPage := . }}
+      {{ range site.Menus.main }}
+      {{ $menuURL := .URL | absLangURL }}
+      {{ $pageURL:= $currentPage.Permalink | absLangURL }}
+      {{ $active := eq $menuURL $pageURL }}
+      {{ if .HasChildren }}
+      <li class="nav-item nav-dropdown group relative">
+        <span class="nav-link {{ range .Children }}
+                {{ $childURL := .URL | absLangURL }}
+                {{ $active := eq $childURL $pageURL }}
+                {{ if $active }}active{{ end }}
+              {{ end }} inline-flex items-center text-lg">
+          {{ .Name }}
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+          </svg>
+        </span>
+        <ul class="nav-dropdown-list lg:group-hover:visible lg:group-hover:opacity-100">
+          {{ range .Children }}
+          {{ $childURL := .URL | absLangURL }}
+          {{ $active := eq $childURL $pageURL }}
+          <li class="nav-dropdown-item">
+            <a class="nav-dropdown-link {{ if $active }}
+                      active
+                    {{- end -}}" {{ if findRE `^http` .URL }} target="_blank" rel="noopener" {{ end }} href="{{- if findRE `^#` .URL -}}
+                      {{- if not $.IsHome -}}
+                        {{- site.Home.RelPermalink -}}
+                      {{- end }}
+                      {{- .URL -}}
+                    {{- else -}}
+                      {{- .URL | relLangURL -}}
+                    {{- end -}}">
+              {{ .Name }}
+            </a>
+          </li>
+          {{ end }}
+        </ul>
+      </li>
+      {{ else }}
+      <li class="nav-item">
+        <a class="nav-link {{ if $active }}active{{- end -}}" {{ if findRE `^http` .URL }} target="_blank"
+          rel="noopener" {{ end }} href="{{- if findRE `^#` .URL -}}
+                {{- if not $.IsHome -}}
+                  {{- site.Home.RelPermalink -}}
+                {{- end }}{{- .URL -}}
+              {{- else -}}
+                {{- .URL | relLangURL -}}
+              {{- end -}}">{{ .Name }}</a>
+      </li>
+      {{ end }}
+      {{ end }}
+      {{ if site.Params.navigation_button.enable }}
+      <li class="mt-4 inline-block lg:hidden">
+        {{ partial "components/arrow-button.html" (dict "link" (relLangURL site.Params.navigation_button.link) "label"
+        site.Params.navigation_button.label ) }}
+      </li>
+      {{ end }}
+    </ul>
+
+    <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
+      {{/* {{ with site.Params.search }}
+      {{ if .enable }}
+      <button aria-label="search" class="border-border text-text-dark hover:text-primary
+             mr-5 inline-block border-r pr-5
+            text-xl  cursor-pointer
+            {{ if not (or site.Params.navigation_button.enable site.Params.theme_switcher) }}
+              lg:border-r-0 lg:pr-0
+            {{ end }}" data-target="search-modal">
+        <i class="fa-solid fa-search"></i>
+      </button>
+      {{ end }}
+      {{ end }} */}}
+
+      {{ partial "components/language-switcher" (dict "Context" . "Class" "mr-5 pl-2 py-1 rounded") }}
+
+
+      <!-- navigation btn -->
+      {{ if site.Params.navigation_button.enable }}
+      <div class="hidden lg:block">
+        {{ partial "components/arrow-button.html" (dict "link" (relLangURL site.Params.navigation_button.link) "label"
+        site.Params.navigation_button.label ) }}
+      </div>
+      {{ end }}
+    </div>
+  </nav>
+  <div id="navLine" class="h-[1px] bg-primary ml-auto -translate-y-15 hidden lg:block"></div>
+</header>
+
+<script>
+  const fullBody = document.body
+  const navBar = document.querySelector(".navbar");
+  const navLine = document.querySelector("#navLine");
+  const navToggle = document.querySelector("#nav-toggle");
+  const header = document.querySelector(".header");
+
+  function setNavLine() {
+
+    const height = (fullBody.offsetWidth - navBar.offsetWidth) / 2
+    if (fullBody.offsetWidth < 1600) {
+      navLine.style.width = (navBar.offsetWidth - 150) + "px";
+    }
+    else {
+      navLine.style.width = height + (navBar.offsetWidth - 150) + "px";
+    }
+
+    navToggle.addEventListener("change", () => {
+      if (navToggle.checked) {
+        navLine.classList.remove("-translate-y-15");
+        navLine.style.width = "100%"
+        header.classList.add("!bg-white");
+
+      } else {
+        navLine.classList.add("-translate-y-15");
+        navLine.style.width = (navBar.offsetWidth - 150) + "px";
+        header.classList.remove("!bg-white");
+
+      }
+    });
+
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setNavLine();
+  });
+  window.addEventListener("resize", () => {
+    setNavLine();
+  });
+
+  // solve nav responsive issue 1024px
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 1024) {
+      document.querySelector("#nav-menu").classList.add("lg:!flex");
+    }
+  });
+
+</script>

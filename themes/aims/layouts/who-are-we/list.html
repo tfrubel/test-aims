@@ -1,0 +1,250 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video) }}
+  <!-- Our Story -->
+  {{ with .Params.our_story }}
+    {{ if .enable }}
+      <section
+        class="section">
+        <div class="container">
+          <div
+            class="section-container gap-16 lg:gap-10 {{ if eq .layout_direction "row-reverse" }}
+              lg:flex-row-reverse
+            {{ else }}
+              lg:flex-row
+            {{ end }}">
+            <div
+              class="section-intro lg:w-[52%]  {{ if eq .layout_direction "row-reverse" }}
+                xl:pl-10
+              {{ else }}
+                xl:pr-20
+              {{ end }}">
+              <h3 class="mb-4 hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h3>
+              <div class="mb-8 text-lg">
+                {{ .subtitle | markdownify }}
+              </div>
+
+              {{ if .bulletPointsTitle }}
+                <p class="text-h6 font-semibold text-dark mb-4">
+                  {{ .bulletPointsTitle | markdownify }}
+                </p>
+              {{ end }}
+
+
+              <div class="flex flex-col gap-4">
+                {{ range .bulletPoints }}
+                  <div class="flex gap-2 items-center">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      class="min-w-[16px] min-h-[16px]"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M1.5 8C1.5 4.41015 4.41015 1.5 8 1.5C11.5899 1.5 14.5 4.41015 14.5 8C14.5 11.5899 11.5899 14.5 8 14.5C4.41015 14.5 1.5 11.5899 1.5 8Z"
+                        fill="#800000" />
+                      <path
+                        d="M10.75 6.5L7.08125 10L5.25 8.25"
+                        stroke="white"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+
+                    <span class=" inline-block  text-base  leading-none">
+                      {{ . | markdownify }}
+                    </span>
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+            <div class="section-content lg:w-[48%] ">
+              {{ partial "image" (dict "Src" .image "Alt" .title "DisplayXL" "900x" "DisplayLG" "555x" "DisplayMD" "360x" "Class" "sticky top-8 mx-auto") }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Our Story -->
+
+  <!-- Mission and Vision -->
+  {{ with .Params.mission_vision }}
+    {{ if .enable }}
+      <section
+        class="section">
+        <div class="container">
+          <div class="section-container ">
+            <div class="section-content  ">
+              <div class="grid md:grid-cols-2 gap-6">
+                {{ range .list }}
+                  <div class="bg-white p-6 xl:p-8">
+                    <h3 class="mb-4 hasEmphasize text-h4 xl:text-h3">
+                      {{ .title | upper | markdownify }}
+                    </h3>
+                    <div class="text-lg">
+                      {{ .description | markdownify }}
+                    </div>
+
+                    {{ partial "image" (dict "Src" .image.src "Alt" .image.alt "DisplayXL" "900x" "DisplayLG" "555x" "DisplayMD" "360x" "Class" "mt-6 shadow-card") }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Mission and Vision -->
+
+  <!-- Why Mathematical Sciences -->
+  {{ with .Params.why_mathematical_sciences }}
+    {{ if .enable }}
+      <section
+        class="section">
+        <div class="container">
+          <div
+            class="section-container gap-16 lg:gap-10 {{ if eq .layout_direction "row-reverse" }}
+              lg:flex-row-reverse
+            {{ else }}
+              lg:flex-row
+            {{ end }}">
+            <div
+              class="section-intro lg:w-[52%]  {{ if eq .layout_direction "row-reverse" }}
+                xl:pl-10
+              {{ else }}
+                xl:pr-20
+              {{ end }}">
+              <h3 class="mb-4 hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h3>
+              <div class="mb-8 text-lg">
+                {{ .subtitle | markdownify }}
+              </div>
+
+              {{ if .bulletPointsTitle }}
+                <p class="text-h6 font-semibold text-dark mb-4">
+                  {{ .bulletPointsTitle | markdownify }}
+                </p>
+              {{ end }}
+
+
+              <div class="flex flex-col gap-4">
+                {{ range .bulletPoints }}
+                  <div class="flex gap-x-2 items-start">
+                    <span class="flex items-center h-[1lh]">
+                      <svg
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        class="size-4"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M1.5 8C1.5 4.41015 4.41015 1.5 8 1.5C11.5899 1.5 14.5 4.41015 14.5 8C14.5 11.5899 11.5899 14.5 8 14.5C4.41015 14.5 1.5 11.5899 1.5 8Z"
+                          fill="#800000" />
+                        <path
+                          d="M10.75 6.5L7.08125 10L5.25 8.25"
+                          stroke="white"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                    {{ . | markdownify }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+            <div class="section-content lg:w-[48%] ">
+              {{ partial "image" (dict "Src" .image "Alt" .title "DisplayXL" "900x" "DisplayLG" "555x" "DisplayMD" "360x" "Class" "sticky top-8 mx-auto") }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Why Mathematical Sciences -->
+
+  <!-- Aims Alumni -->
+  {{ partial "our-alumni.html" . }}
+  <!-- /Aims Alumni -->
+
+  <!-- Aims Governance -->
+  {{ partial "our-governance.html" . }}
+  <!-- /Aims Governance -->
+
+  <!-- Our Partners -->
+  {{ partial "our-partners"  }}
+  <!-- /Our Partners -->
+
+  <!-- Annual Reports -->
+  {{ with .Params.annual_reports }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div
+              class="section-intro justify-between xl:!flex-row xl:!gap-10 xl:!items-center">
+              <div class="xl:!w-1/2">
+                {{ if .badge }}
+                  <div class="flex mb-4">
+                    <span
+                      class="btn border rounded-full font-normal border-primary px-3 py-1.5 text-primary flex items-center gap-2 ">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M14 10.5C10.2368 10.2454 7.23763 7.03197 7 3C6.76237 7.03197 3.76318 10.2454 0 10.5C3.76318 10.7546 6.76237 13.968 7 18C7.23763 13.968 10.2368 10.7546 14 10.5Z"
+                          fill="#800000" />
+                        <path
+                          d="M20 7.77273C17.6704 7.6107 15.8138 5.5658 15.6667 3C15.5196 5.5658 13.6629 7.6107 11.3333 7.77273C13.6629 7.93477 15.5196 9.97964 15.6667 12.5455C15.8138 9.97964 17.6704 7.93477 20 7.77273Z"
+                          fill="#800000" />
+                      </svg>
+
+                      {{ .badge | markdownify }}
+                    </span>
+                  </div>
+                {{ end }}
+
+
+                <h2 class="title  hasEmphasize">
+                  {{ .title | upper | markdownify }}
+                </h2>
+              </div>
+              <div class="subtitle xl:!w-1/2">
+                {{ .subtitle | markdownify }}
+              </div>
+            </div>
+            <div class="section-content">
+              <div class="grid lg:grid-cols-2 gap-6">
+                {{ range .reports }}
+                  {{ $page := site.GetPage . }}
+                  {{ partial "components/annual-report-card.html" (dict "Image" $page.Params.image "Badge"
+                    $page.Params.author "Title" $page.Title "Description" $page.Params.description "Pdf" $page.Params.pdf "RelPermalink" $page.RelPermalink )
+                  }}
+                {{ end }}
+              </div>
+
+              {{ if .button }}
+                <div class="mt-10 xl:mt-16 ">
+                  {{ partial "components/arrow-button.html" (dict "link" .button.link "label" .button.label) }}
+                </div>
+              {{ end }}
+
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Annual Reports -->
+{{ end }}

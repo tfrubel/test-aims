@@ -1,0 +1,33 @@
+{{ $context := .Context }}
+{{ $class := .Class }}
+{{ $base := site.Home.Permalink }}
+
+
+<ul
+  class="{{ $class }} inline-flex space-x-2 capitalize font-semibold items-center font-bold flex-wrap ">
+  <li class="flex items-center">
+    <a class="text-dark text-base" href="{{ $base }}">
+      {{ T "home" | default "Home" }}
+    </a>
+    <span
+      class="inline-block ml-2 w-[4px] h-[4px] rounded-full bg-primary"></span>
+  </li>
+  {{ range $i, $e:= $context.Ancestors.Reverse }}
+    {{ if and (not .IsHome) (ne .Title "Pages") }}
+      <li>
+        <a
+          class="text-primary font-semibold text-base"
+          href="{{ .RelPermalink }}">
+          {{ T (printf "%s" (lower .Title))  | default .Title }}
+        </a>
+        <span
+          class="inline-block w-[4px] h-[4px] rounded-full bg-primary"></span>
+      </li>
+    {{ end }}
+  {{ end }}
+  <li>
+    <span class="text-primary font-semibold text-base">
+      {{ T (printf "%s" (lower $context.Title)) | default $context.Title }}
+    </span>
+  </li>
+</ul>

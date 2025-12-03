@@ -1,0 +1,29 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video) }}
+
+
+  <section class="section">
+    <div class="container">
+      <div class="flex flex-wrap gap-8 justify-center">
+        {{ range .Params.partners }}
+          <a
+            href="{{ .url }}"
+            {{ if strings.HasPrefix .url `http` }}
+              target="_blank" rel="noopener"
+            {{ end }}
+            class="bg-white px-4 py-2 shadow-card max-w-max font-semibold text-dark grid place-items-center text-h5">
+            {{ .name }}
+          </a>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="content">
+        {{ .Content }}
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,59 @@
+<footer class="bg-white">
+  <div class="container">
+    <div
+      class="section-container mt-20 py-10 lg:py-20 border-t border-b border-dark/10">
+      <div class="row gap-y-8">
+        <div class="col-6 md:col-4 xl:col-2">
+          <h3 class="text-h5 mb-4">Quick Links</h3>
+          <ul class="flex flex-col gap-y-2">
+            {{ range site.Menus.footer }}
+
+              <li>
+                <a class="hover:text-primary" href="{{ .URL }}">{{ .Name }}</a>
+              </li>
+            {{ end }}
+          </ul>
+        </div>
+
+        <div class="col-6 md:col-4 xl:col-2">
+          <h3 class="text-h5 mb-4">Social Media</h3>
+          <ul class="flex flex-col gap-y-3">
+            {{ range site.Data.social.main }}
+              <li>
+                <a
+                  class="flex items-center justify-center w-12 h-12 text-white rounded-full hover:scale-110 transition-transform duration-300 ease-in-out"
+                  target="_blank"
+                  aria-label="{{ .name }}"
+                  rel="nofollow noopener"
+                  href="{{ .link | safeURL }}"
+                  style="background-color: {{ .bg_color }};">
+                  <i class="{{ .icon }} text-3xl"></i>
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+        </div>
+
+        <div class="xl:col-8">
+          <h3 class="text-h5 mb-4">Office Location</h3>
+          <div class="row gap-y-6">
+            {{ range site.Menus.offices }}
+              <div class="sm:col-6 lg:col-4">
+                <a
+                  href="{{ .URL }}"
+                  class="text-lg block font-bold text-primary mb-2"
+                  target="_blank"
+                  >{{ .Name | upper }}</a
+                >
+                <p class="text-base">{{ .Post | markdownify }}</p>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="py-6 text-center">
+      {{ site.Params.copyright | markdownify }}
+    </div>
+  </div>
+</footer>

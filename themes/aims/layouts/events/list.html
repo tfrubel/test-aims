@@ -1,0 +1,338 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video ) }}
+
+
+  <!-- Event Calender -->
+  {{ $pages := .RegularPages }}
+
+  {{ with .Params.event_calender }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro ">
+              <h2 class="title  hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <div class="subtitle ">
+                {{ .subtitle | markdownify }}
+              </div>
+            </div>
+            <div class="section-content">
+              <div
+                class="flex flex-col sm:flex-row items-center h-20 sm:h-16 mb-16 gap-3">
+                <div class="w-full sm:w-3/12 border border-dark h-full">
+                  <select
+                    class="w-full h-full text-black font-bold"
+                    name="event-type"
+                    id="event-type">
+                    <option value="all">ALl Upcoming Events</option>
+                    <option value="virtual">Online Events</option>
+                    <option value="physical">Physical Events</option>
+                  </select>
+                </div>
+                <div
+                  aria-label="search"
+                  data-target="search-modal"
+                  class="border border-dark w-full sm:w-9/12 h-full flex justify-between">
+                  <div class="bg-dark w-1/12 flex justify-center items-center">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M12.5014 11H11.7114L11.4314 10.73C12.0564 10.0039 12.5131 9.14875 12.769 8.22559C13.0248 7.30243 13.0735 6.33413 12.9114 5.38998C12.4414 2.60998 10.1214 0.389975 7.32144 0.0499748C6.33706 -0.0745594 5.33723 0.0277464 4.39846 0.349064C3.4597 0.670381 2.60688 1.20219 1.90527 1.90381C1.20366 2.60542 0.671846 3.45824 0.350529 4.397C0.0292113 5.33576 -0.0730946 6.33559 0.0514397 7.31997C0.39144 10.12 2.61144 12.44 5.39144 12.91C6.33559 13.072 7.30389 13.0234 8.22705 12.7675C9.15021 12.5117 10.0054 12.0549 10.7314 11.43L11.0014 11.71V12.5L15.2514 16.75C15.6614 17.16 16.3314 17.16 16.7414 16.75C17.1514 16.34 17.1514 15.67 16.7414 15.26L12.5014 11ZM6.50144 11C4.01144 11 2.00144 8.98997 2.00144 6.49997C2.00144 4.00997 4.01144 1.99997 6.50144 1.99997C8.99144 1.99997 11.0014 4.00997 11.0014 6.49997C11.0014 8.98997 8.99144 11 6.50144 11Z"
+                        fill="white" />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    class="w-11/12 px-4"
+                    placeholder="Search Events" />
+                </div>
+              </div>
+
+              <div class="row gap-y-6" id="event-list">
+                {{ range first 8 $pages }}
+                  <div class="xl:col-6">
+                    {{ partial "components/event-card" (dict "Context" . "isSmall" true) }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- Event Calender -->
+
+  <!-- Virtual Event list -->
+  {{ if .Params.events.enable }}
+    <section class="section">
+      <div class="container">
+        <div class="section-container gap-4">
+          {{ with .Params.events }}
+            {{ partial "section-header" . }}
+          {{ end }}
+          <div class="section-content">
+            <div class="flex flex-col gap-y-6">
+              {{ $paginator := .Paginate .RegularPages }}
+              {{ range $paginator.Pages }}
+                {{ partial "components/event-card" (dict "Context" . "isSmall" false) }}
+              {{ end }}
+            </div>
+            <div class="mt-6">{{ partial "components/pagination.html" . }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+  <!-- Virtual Event list -->
+
+  <!-- Media Resources -->
+  {{ with .Params.media_resources }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          {{ $galleryGroups := .gallery_groups }}
+          <div class="section-container initialize-shuffle">
+            {{/* HEADER */}}
+            <div class="flex justify-between items-center gap-8 flex-wrap mb-8">
+              <div class="lg:w-1/2">
+                <h2 class="mb-4">
+                  {{ .title | upper | markdownify }}
+                </h2>
+                <p class="">
+                  {{ .subtitle | markdownify }}
+                </p>
+              </div>
+            </div>
+            {{/* CONTENT */}}
+            <div>
+              <!-- Featured Video -->
+              <div class="row mb-14">
+                <h3 class="mb-4">Featured Videos</h3>
+                {{ range .featured_videos }}
+                  <div class="lg:col-6">
+                    <div class="overflow-hidden w-full">
+                      {{ .yt_id | markdownify }}
+                    </div>
+                  </div>
+                {{ end }}
+              </div>
+              <!-- /Featured Video -->
+              <div>
+                <h3 class="mb-4">Gallery</h3>
+                <ul
+                  class="flex justify-center flex-wrap mb-8 border-dark border p-2 px-3  max-w-max ">
+                  <li>
+                    <button
+                      class="btn bg-dark text-white px-8 font-medium py-3 gallery_btn image_btn"
+                      data-galley="{{ .image_gallery.type }}">
+                      {{ .image_gallery.title }}
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="btn px-8 font-medium py-3 gallery_btn video_btn"
+                      data-galley="{{ .video_gallery.type }}">
+                      {{ .video_gallery.title }}
+                    </button>
+                  </li>
+                </ul>
+                <div class="gallery-container">
+                  <!-- IMAGE GALLERY -->
+                  <div class="image_gallery columns-1 md:columns-4">
+                    {{ range .image_gallery.list }}
+                      <div class="break-inside-avoid mb-4">
+                        <a href="{{ .src }}" class="h-full" data-glightbox>
+                          {{ partial "image" (dict "Src" .src "Alt" .alt "Class" "size-full") }}
+                        </a>
+                      </div>
+                    {{ end }}
+                  </div>
+                  <!-- VIDEO GALLERY -->
+                  <div class="video_galley row hidden gap-y-5">
+                    {{ range .video_gallery.list }}
+                      <div class="lg:col-6">
+                        <div class="overflow-hidden w-full">
+                          {{ .yt_id | markdownify }}
+                        </div>
+                      </div>
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- Media Resources -->
+
+  <!-- Downloads -->
+  {{ with .Params.downloads_items }}
+    {{ if .enable }}
+      <section class="section bg-light">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro ">
+              <h2 class="title  hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <div class="subtitle ">
+                {{ .subtitle | markdownify }}
+              </div>
+            </div>
+            <div class="section-content">
+              <div class="row gap-y-6">
+                {{ range .list }}
+                  <div class="md:col-6 xl:col-4">
+                    {{ partial "components/download-card" . }}
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- Downloads -->
+<script>
+    // Lightbox
+    document.addEventListener("DOMContentLoaded", function () {
+        const lightbox = GLightbox({
+            selector: "a[data-glightbox]",
+        });
+    });
+
+    // Event Calender
+    const eventType = document.getElementById("event-type");
+    const eventList = document.getElementById("event-list");
+
+    let fetchableEvents = []
+    {{ $allEvents := $pages | jsonify }}
+    {{ range  $pages }}
+    eventObject = {
+        title: "{{.Title}}",
+        description: "{{.Description}}",
+        image: "{{.Params.image}}",
+        permalink: "{{.Permalink}}",
+        date: "{{.Params.event.date}}",
+        time: "{{.Params.event.time}}",
+        location: "{{.Params.event.location}}",
+        type: "{{.Params.event.mode}}",
+    }
+    fetchableEvents.push(eventObject)
+    {{ end }}
+
+
+    eventType.addEventListener("change", function (e) {
+        const value = e.target.value
+        let filteredEvents;
+        if (value === "all") {
+            { {/*  console.log(fetchableEvents)  */ } }
+            updateEventDOM([...fetchableEvents])
+        }
+        else {
+            filteredEvents = fetchableEvents.filter(event => event.type === value)
+            updateEventDOM(filteredEvents)
+        }
+    })
+
+    function updateEventDOM(list) {
+        console.log(list)
+        eventList.innerHTML = ""
+        list?.forEach(event => {
+            const eventCard = document.createElement("div")
+            eventCard.classList.add("xl:col-6")
+            eventCard.innerHTML = `
+
+             <div class="border border-primary/20 hover:border-primary transition-all duration-200 p-6">
+                <div class="flex flex-col md:flex-row gap-6 ">
+                    <div class="md:w-[40%] ">
+                    <img src="${event.image}" alt="${event.title}" class="w-full h-full object-cover aspect-square" />
+                    </div>
+
+
+                    <div class="md:w-[60%]">
+                    <div class="flex flex-col justify-between h-full md:py-4">
+                     <div>
+                        <div class="mb-3 flex items-center gap-4">
+                            <span class="inline-block bg-primary/5 text-primary px-2 py-1">${event.type}</span>
+                            <span class="flex items-center gap-2 text-primary">
+
+                            <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    d="M1 7.5C1 8.28793 1.15519 9.06815 1.45672 9.7961C1.75825 10.5241 2.20021 11.1855 2.75736 11.7426C3.31451 12.2998 3.97595 12.7417 4.7039 13.0433C5.43185 13.3448 6.21207 13.5 7 13.5C7.78793 13.5 8.56815 13.3448 9.2961 13.0433C10.0241 12.7417 10.6855 12.2998 11.2426 11.7426C11.7998 11.1855 12.2417 10.5241 12.5433 9.7961C12.8448 9.06815 13 8.28793 13 7.5C13 5.9087 12.3679 4.38258 11.2426 3.25736C10.1174 2.13214 8.5913 1.5 7 1.5C5.4087 1.5 3.88258 2.13214 2.75736 3.25736C1.63214 4.38258 1 5.9087 1 7.5Z"
+                                    stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M7 4.16699V7.50033L9 9.50033" stroke="#800000" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <span>${event.time}</span>
+                            </span>
+                        </div>
+
+
+                        <a href="${event.permalink}">
+                            <h3 class="text-h6 xl:text-h5 font-bold mb-4 uppercase">${event.title}</h3>
+                        </a>
+                        </div>
+
+
+                        <div class="flex items-center gap-2 ">
+                        <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                            d="M4.9987 6.66683C4.55667 6.66683 4.13275 6.49123 3.82019 6.17867C3.50763 5.86611 3.33203 5.44219 3.33203 5.00016C3.33203 4.55814 3.50763 4.13421 3.82019 3.82165C4.13275 3.50909 4.55667 3.3335 4.9987 3.3335C5.44073 3.3335 5.86465 3.50909 6.17721 3.82165C6.48977 4.13421 6.66536 4.55814 6.66536 5.00016C6.66536 5.21903 6.62225 5.43576 6.5385 5.63797C6.45474 5.84018 6.33197 6.02391 6.17721 6.17867C6.02244 6.33344 5.83871 6.4562 5.6365 6.53996C5.43429 6.62372 5.21757 6.66683 4.9987 6.66683ZM4.9987 0.333496C3.76102 0.333496 2.57404 0.825161 1.69887 1.70033C0.823696 2.5755 0.332031 3.76249 0.332031 5.00016C0.332031 8.50016 4.9987 13.6668 4.9987 13.6668C4.9987 13.6668 9.66536 8.50016 9.66536 5.00016C9.66536 3.76249 9.1737 2.5755 8.29853 1.70033C7.42336 0.825161 6.23637 0.333496 4.9987 0.333496Z"
+                            fill="black" />
+                        </svg>
+                        <p class="text-sm">${event.location}</p>
+                        </div>
+
+
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+            `
+            eventList.appendChild(eventCard)
+        })
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        updateEventDOM(fetchableEvents)
+    });
+
+
+    // Gallery Tab
+    const galleryBtn = document.querySelectorAll(".gallery_btn")
+    const imageGallery = document.querySelector(".image_gallery")
+    const videoGallery = document.querySelector(".video_galley")
+
+    galleryBtn.forEach((btn)=>{
+      btn.addEventListener("click",(event)=>{
+
+          if(event.target.dataset.galley === "image"){
+            btn.classList.add("bg-dark","text-white")
+            document.querySelector(".video_btn").classList.remove("bg-dark","text-white")
+            imageGallery.classList.remove("hidden")
+            videoGallery.classList.add("hidden")
+          }
+          if(event.target.dataset.galley === "video"){
+            btn.classList.add("bg-dark","text-white")
+            document.querySelector(".image_btn").classList.remove("bg-dark","text-white")
+            imageGallery.classList.add("hidden")
+            videoGallery.classList.remove("hidden")
+          }
+
+      })
+    })
+
+
+</script>
+{{ end }}

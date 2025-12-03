@@ -1,0 +1,40 @@
+{{- $image := .Image | default "/images/image-placeholder.png" -}}
+{{- $title := .Title | default "Default Title" -}}
+{{- $description := .Description | default "Default description text goes here. This is a placeholder for the news card description." -}}
+{{- $buttonEnable := .Button.enable | default true -}}
+{{- $buttonLabel := .Button.label | default "Read More" -}}
+{{- $buttonLink := .Button.link | default "Read More" -}}
+{{- $context := .Context | default "Context" -}}
+
+
+<div
+  class="flex flex-col-reverse sm:flex-row group/card transition-all duration-300 hover:shadow-card border border-dark/5 hover:border-primary/60 justify-between">
+  <div class="p-6 sm:p-10 border-t-0 transition-all duration-300 sm:w-1/2">
+    <div class="flex flex-col justify-between h-full ">
+      <div>
+        {{/* Badge */}}
+        <span class="badge mb-2">Featured</span>
+
+        {{/* Title */}}
+        <h3 class=" mb-4">
+          <a
+            href="{{ relLangURL $buttonLink }}"
+            class="text-h5 xl:text-h4 font-bold leading-tight"
+            >{{ $title  | upper }}</a
+          >
+        </h3>
+
+        {{/* Description */}}
+        <p class="text-base lg:text-h6 text-text mb-6">{{ $description }}</p>
+      </div>
+
+      {{/* Button */}}
+      {{ if $buttonEnable }}
+        {{ partial "components/arrow-button.html" (dict "link" (relLangURL $buttonLink) "label" $buttonLabel  "variation" "primary") }}
+      {{ end }}
+    </div>
+  </div>
+  <div class="sm:w-1/2">
+    {{ partial "image" (dict "Src" $image "Alt" $title "Class" "w-full !h-full lg:min-h-[300px] object-cover " "Size" "650x380") }}
+  </div>
+</div>

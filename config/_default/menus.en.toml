@@ -1,0 +1,190 @@
+############# English navigation ##############
+
+# main menu
+[[main]]
+name = "Home"
+url = "/"
+weight = 1
+
+
+[[main]]
+weight = 2
+name = "Who We Are"
+
+[[main]]
+parent = "Who We Are"
+weight = 1
+name = "About Us"
+url = "/who-are-we"
+
+[[main]]
+parent = "Who We Are"
+weight = 2
+name = "Our Centres"
+url = "/centres"
+
+[[main]]
+parent = "Who We Are"
+weight = 3
+name = "Our People"
+url = "/our-people"
+
+[[main]]
+parent = "Who We Are"
+weight = 4
+name = "Our Alumni"
+url = "/our-alumni"
+
+[[main]]
+parent = "Who We Are"
+weight = 5
+name = "Our Partners"
+url = "/our-partners"
+
+[[main]]
+name = "About AIMS"
+weight = 3
+
+[[main]]
+parent = "About AIMS"
+name = "What We Do"
+url = "/what-we-do"
+
+[[main]]
+parent = "About AIMS"
+name = "Contact"
+url = "/contact"
+
+[[main]]
+parent = "About AIMS"
+name = "Get Involved"
+url = "/get-involved"
+
+[[main]]
+parent = "About AIMS"
+name = "AIMS Programs"
+url = "/programs"
+
+
+[[main]]
+weight = 4
+name = "News & Events"
+url = "/news-events"
+
+# [[main]]
+# parent = "News & Events"
+# name = "News"
+# url = "/news"
+
+# [[main]]
+# parent = "News & Events"
+# name = "AIMS in the News"
+# url = "/aims-in-the-news"
+
+# [[main]]
+# parent = "News & Events"
+# name = "Press Releases"
+# url = "/press-news"
+
+# [[main]]
+# parent = "News & Events"
+# name = "Events"
+# url = "/events"
+
+
+
+# footer menu
+[[footer]]
+name = "News & Events"
+url = "/news"
+weight = 1
+
+[[footer]]
+name = "Who We Are"
+url = "/who-are-we"
+weight = 2
+
+[[footer]]
+name = "Get Involved"
+url = "/get-involved"
+weight = 3
+
+[[footer]]
+name = "Our Alumni"
+url = "/our-alumni"
+weight = 4
+
+[[footer]]
+name = "Contact Us"
+url = "/contact"
+weight = 6
+
+[[footer]]
+name = "Privacy Policy"
+url = "/privacy-policy"
+weight = 7
+
+[[footer]]
+name = "Terms & Conditions"
+url = "/terms-and-conditions"
+weight = 8
+
+
+# office location
+[[offices]]
+name = "AIMS-NEI Global Secretariat"
+url = "/"
+post = """
+District Gasabo, Secteur Kacyiru <br>
+Cellule Kamatamu <br>
+Rue KG590 ST, Kigali, Rwanda
+"""
+weight = 1
+
+[[offices]]
+name = "AIMS South Africa"
+url = "https://aims.ac.za/"
+post = """
+6 Melrose Road, Muizenberg <br>
+Cape Town, South Africa
+"""
+weight = 2
+
+[[offices]]
+name = "AIMS Cameroon"
+url = "https://aims-cameroon.org/"
+post = """
+South West Region, <br>
+Crystal Garden, Limbe <br>
+Cameroon
+"""
+weight = 3
+
+[[offices]]
+name = "AIMS Senegal"
+url = "https://aims-senegal.org/"
+post = """
+Km2 route de Joal <br>
+(Centre IRD), BP 1418 <br>
+Mbour-Thies, Senegal
+"""
+weight = 4
+
+[[offices]]
+name = "AIMS Ghana"
+url = "https://aims.edu.gh/"
+post = """
+SummerHill Estates, <br>
+East Legon Hills, Santoe <br>
+Accra, Ghana
+"""
+weight = 5
+
+[[offices]]
+name = "AIMS Rwanda"
+url = "https://aims.ac.rw/"
+post = """
+Sector Remera, <br>
+KN3 Kigali, Rwanda
+"""
+weight = 6

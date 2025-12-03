@@ -1,0 +1,45 @@
+{{ $context := . }}
+{{ $title := $context.title }}
+{{ $flag_svg := $context.flag_svg }}
+{{ $centre_logo := $context.centre_logo }}
+{{ $button := $context.button }}
+
+
+<div
+  class="border border-dark/10 hover:border-primary/60 transition duration-300 p-6 bg-gradient group">
+  <div class="grid grid-cols-2 items-center gap-6">
+    <img
+      src="{{ $flag_svg }}"
+      alt="{{ $title }} Flag"
+      class="w-auto max-h-[120px] " />
+    <img
+      src="{{ $centre_logo }}"
+      alt="{{ $title }} Flag"
+      class="w-auto max-h-[120px] justify-self-center" />
+  </div>
+  <div class="mt-6">
+    <div class="flex gap-2 items-end justify-between flex-wrap ">
+      <a
+        href="{{ $button.link }}"
+        {{ if strings.HasPrefix $button.link `http` }}
+          target="_blank" rel="noopener"
+        {{ end }}
+        class="text-h6  font-bold hover:text-primary mb-0 str"
+        >{{ $title }} |
+        {{ $button.label }}
+        <svg
+          class="inline"
+          stroke="currentColor"
+          fill="currentColor"
+          stroke-width="0"
+          viewBox="0 0 12 16"
+          height=".8em"
+          width=".8em"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill-rule="evenodd"
+            d="M11 10h1v3c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h3v1H1v10h10v-3zM6 2l2.25 2.25L5 7.5 6.5 9l3.25-3.25L12 8V2H6z"></path></svg
+      ></a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,188 @@
+{{ define "main" }}
+  <!-- Page Header -->
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video) }}
+
+
+  <!-- Our Training -->
+  {{ with .Params.our_training }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            {{ partial "section-header" . }}
+            <div class="section-content">
+              <div class="row gap-y-6">
+                {{ range $index, $item := .list }}
+                  {{ if eq .card_type `horizontal` }}
+                    <div class="col-12">
+                      {{ partial "components/training-info-card" . }}
+                    </div>
+                  {{ else }}
+                    {{ if eq $index 0 }}
+                      <div class="lg:col-7">
+                        {{ partial "components/training-info-card" . }}
+                      </div>
+                    {{ else }}
+                      <div class="lg:col-5">
+                        {{ partial "components/training-info-card" . }}
+                      </div>
+                    {{ end }}
+
+                  {{ end }}
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- Our Training -->
+
+  <!-- Research Programs -->
+  {{ with .Params.research_programs }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro">
+              <h2 class="title hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <p class="subtitle">
+                {{ .subtitle | markdownify }}
+              </p>
+            </div>
+            <div class="section-content">
+              <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {{ range .slugs }}
+                  {{ $page := site.GetPage . }}
+                  {{ partial "components/program-card.html" (dict "Image" $page.Params.image "Badge"
+                    $page.Params.author "Title" $page.Title "Description" $page.Params.description "Button" (dict
+                    "enable" true "label" "Read More" "link" $page.Permalink))
+                  }}
+                {{ end }}
+              </div>
+              {{ with .button }}
+                {{ if .enable }}
+                  <div class="mt-14">
+                    {{ partial "components/arrow-button.html" (dict "link" (relLangURL .link) "label" .label ) }}
+                  </div>
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Research Programs -->
+
+  <!-- Training Programs -->
+  {{ with .Params.training_programs }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro">
+              <h2 class="title hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <p class="subtitle">
+                {{ .subtitle | markdownify }}
+              </p>
+            </div>
+            <div class="section-content">
+              <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {{ range .slugs }}
+                  {{ $page := site.GetPage . }}
+                  {{ partial "components/program-card.html" (dict "Image" $page.Params.image "Badge"
+                    $page.Params.author "Title" $page.Title "Description" $page.Params.description "Button" (dict
+                    "enable" true "label" "Read More" "link" $page.Permalink))
+                  }}
+                {{ end }}
+              </div>
+              {{ with .button }}
+                {{ if .enable }}
+                  <div class="mt-14">
+                    {{ partial "components/arrow-button.html" (dict "link" (relLangURL .link) "label" .label ) }}
+                  </div>
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Training Programs -->
+
+  <!-- Outreach & Engagement -->
+  {{ with .Params.outreach_and_engagement }}
+    {{ if .enable }}
+      <section class="section">
+        <div class="container">
+          <div class="section-container">
+            <div class="section-intro">
+              <h2 class="title hasEmphasize">
+                {{ .title | upper | markdownify }}
+              </h2>
+              <p class="subtitle">
+                {{ .subtitle | markdownify }}
+              </p>
+            </div>
+            <div class="section-content">
+              <div class="grid sm:grid-cols-2  gap-6">
+                {{ range .slugs }}
+                  {{ $page := site.GetPage . }}
+                  {{ partial "components/program-card.html" (dict "Image" $page.Params.image "Badge"
+                    $page.Params.author "Title" $page.Title "Description" $page.Params.description "Button" (dict
+                    "enable" true "label" "Read More" "link" $page.Permalink))
+                  }}
+                {{ end }}
+              </div>
+              {{ with .button }}
+                {{ if .enable }}
+                  <div class="mt-14">
+                    {{ partial "components/arrow-button.html" (dict "link" (relLangURL .link) "label" .label ) }}
+                  </div>
+                {{ end }}
+              {{ end }}
+            </div>
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+  <!-- /Outreach & Engagement -->
+
+  <!-- Downloads -->
+  {{ with .Params.downloads_items }}
+  {{ if .enable }}
+  <section class="section">
+      <div class="container">
+          <div class="section-container">
+              <div class="section-intro ">
+                  <h2 class="title  hasEmphasize">
+                      {{ .title | upper | markdownify }}
+                  </h2>
+                  <div class="subtitle ">
+                      {{ .subtitle | markdownify }}
+                  </div>
+              </div>
+              <div class="section-content">
+                  <div class="row gap-y-6">
+                      {{ range .list }}
+                      <div class="md:col-6 xl:col-4">
+                          {{ partial "components/download-card" . }}
+                      </div>
+                      {{ end }}
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  {{ end }}
+  {{ end }}
+  <!-- Downloads -->
+{{ end }}

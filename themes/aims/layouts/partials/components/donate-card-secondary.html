@@ -1,0 +1,32 @@
+<div class="py-10 px-6 shadow-card hover:scale-105 transition-transform duration-300">
+    <div class="h-14 w-14 bg-primary/10 flex justify-center items-center">
+        {{ partial "image" (dict "Src" "/images/icons/cape-money.svg" "Context" . "Alt" .title
+        "Size" "32x32") }}
+    </div>
+    <div class="my-4">
+        <h3 class="text-h5 mb-2">{{ .title | upper }}</h3>
+        <p class="text-base">{{ .content }}</p>
+    </div>
+    <ul class="flex flex-col gap-y-2">
+
+        {{ range .checklist }}
+        <li class="flex font-bold items-center gap-x-2 text-base">
+            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12.6253 9.57076V11.1526C12.6253 11.8078 12.0941 12.339 11.4389 12.339H4.55753C3.90229 12.339 3.37109 11.8078 3.37109 11.1526V7.00049"
+                    class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M15 11.1528V8.57959" class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                    d="M7.08789 1.84278L1.7304 4.12484C1.3015 4.30357 1 4.72681 1 5.22046C1 5.7141 1.3015 6.13734 1.7304 6.31607L7.08789 8.59813C7.36869 8.71518 7.67681 8.77978 8 8.77978C8.32319 8.77978 8.63131 8.71518 8.91211 8.59813L14.2696 6.31607C14.6985 6.13734 15 5.7141 15 5.22046C15 4.72681 14.6985 4.30357 14.2696 4.12484L8.91211 1.84278C8.63131 1.72573 8.32319 1.66113 8 1.66113C7.67681 1.66113 7.36869 1.72573 7.08789 1.84278Z"
+                    class="stroke-primary" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+
+            {{ . }}
+        </li>
+        {{ end }}
+    </ul>
+
+</div>

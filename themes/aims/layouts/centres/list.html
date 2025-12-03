@@ -1,0 +1,31 @@
+{{ define "main" }}
+  {{ partial "page-header" (dict "Context" . "title" .Title "subtitle" .Params.subtitle "BackgroundImage" .Params.background_image "BackgroundVideo" .Params.background_video) }}
+
+
+  <section class="section xl:py-40">
+    <div class="container">
+      <div class="grid md:grid-cols-2 gap-10">
+        {{ range .Params.countries }}
+          <div
+            class="p-4 border border-dark/10 hover:border-dark/50 transition duration-300 cursor-pointer flex flex-col lg:flex-row gap-6 relative">
+            <div class="w-full lg:w-[40%]">
+              {{ partial "image" (dict "Src" .flag_svg "Alt" .name "Class" "w-full ") }}
+            </div>
+            <div class="w-full lg:w-[60%] flex flex-col ">
+              <p class="text-h4 font-bold text-dark mb-2">{{ .name }}</p>
+              <div>
+                <p class="text-dark font-medium text-h6 leading-none mb-2">
+                  Location
+                </p>
+                <p class="text-text-light">{{ .location }}</p>
+              </div>
+              <a href="{{ .url }}" target="_blank" class="stretch-link">
+                <span class="sr-only">Settings</span>
+              </a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

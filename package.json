@@ -1,0 +1,23 @@
+{
+  "name": "AIMS",
+  "description": "AIMS Landing Page Powered by Hugo and Tailwind CSS",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "author": "zeon.studio",
+  "scripts": {
+    "dev": "rm -rf public && hugo server",
+    "build": "hugo --gc --minify --templateMetrics --templateMetricsHints --forceSyncStatic",
+    "preview": "hugo server --disableFastRender --navigateToChanged --templateMetrics --templateMetricsHints --watch --forceSyncStatic -e production --minify",
+    "update-modules": "node ./scripts/clearModules.js && hugo mod clean --all && hugo mod get -u ./... && hugo mod tidy",
+    "format": "prettier -w ."
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.6",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "prettier": "^3.5.3",
+    "prettier-plugin-go-template": "0.0.15",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "tailwindcss": "^4.1.6"
+  }
+}

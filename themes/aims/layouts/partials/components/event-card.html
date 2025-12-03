@@ -1,0 +1,66 @@
+{{- $image := .Context.Params.image | default "/images/image-placeholder.png" -}}
+{{- $badge := .Context.Params.event.type | default "Default" -}}
+{{- $time := .Context.Params.event.time | default "Default" -}}
+{{- $location := .Context.Params.event.location | default "Default" -}}
+{{- $title := .Context.Title | default "Default Title" -}}
+{{- $description := .Context.Description | default "Default description text goes here. This is a placeholder for the news card description." -}}
+
+
+<div class="border border-primary/20 hover:border-primary transition-all duration-200 p-6">
+  <div class="flex flex-col md:flex-row gap-6 ">
+    {{/* Left Side */}}
+    <div class="md:w-[40%] ">
+      {{ partial "process-file.html" (dict "Src" $image ) }}
+      {{ partial "image" (dict "Src" $image "Alt" $title "Class" "w-full !h-full lg:min-h-[300px] object-cover " "Size" "600x300") }}
+    </div>
+
+    {{/* Right Side */}}
+    <div class="md:w-[60%] ">
+      <div class="flex flex-col justify-between h-full md:py-4">
+        <div>
+          {{/* Badge */}}
+          <div class="mb-3 flex items-center gap-4">
+            <span class="inline-block bg-primary/5 text-primary px-2 py-1 capitalize">{{ $badge }}</span>
+            <span class="flex items-center gap-2 text-primary">
+              {{/* Time Icon */}}
+              <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1 7.5C1 8.28793 1.15519 9.06815 1.45672 9.7961C1.75825 10.5241 2.20021 11.1855 2.75736 11.7426C3.31451 12.2998 3.97595 12.7417 4.7039 13.0433C5.43185 13.3448 6.21207 13.5 7 13.5C7.78793 13.5 8.56815 13.3448 9.2961 13.0433C10.0241 12.7417 10.6855 12.2998 11.2426 11.7426C11.7998 11.1855 12.2417 10.5241 12.5433 9.7961C12.8448 9.06815 13 8.28793 13 7.5C13 5.9087 12.3679 4.38258 11.2426 3.25736C10.1174 2.13214 8.5913 1.5 7 1.5C5.4087 1.5 3.88258 2.13214 2.75736 3.25736C1.63214 4.38258 1 5.9087 1 7.5Z"
+                  stroke="#800000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M7 4.16699V7.50033L9 9.50033" stroke="#800000" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <span>{{$time}}</span>
+            </span>
+          </div>
+
+          {{/* Title */}}
+          <a href="{{ .Context.RelPermalink  }}">
+            <h3 class="text-h6 xl:text-h5 font-bold mb-4">{{ $title | upper | markdownify }}</h3>
+          </a>
+
+          {{/* Description */}}
+          {{ if .isSmall }}
+          {{else}}
+          <p class="text-base text-text mb-6">{{ $description | markdownify }}</p>
+          {{ end }}
+        </div>
+
+        {{/* Button */}}
+        {{ if .isSmall }}
+        <div class="flex items-center gap-2 ">
+          <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M4.9987 6.66683C4.55667 6.66683 4.13275 6.49123 3.82019 6.17867C3.50763 5.86611 3.33203 5.44219 3.33203 5.00016C3.33203 4.55814 3.50763 4.13421 3.82019 3.82165C4.13275 3.50909 4.55667 3.3335 4.9987 3.3335C5.44073 3.3335 5.86465 3.50909 6.17721 3.82165C6.48977 4.13421 6.66536 4.55814 6.66536 5.00016C6.66536 5.21903 6.62225 5.43576 6.5385 5.63797C6.45474 5.84018 6.33197 6.02391 6.17721 6.17867C6.02244 6.33344 5.83871 6.4562 5.6365 6.53996C5.43429 6.62372 5.21757 6.66683 4.9987 6.66683ZM4.9987 0.333496C3.76102 0.333496 2.57404 0.825161 1.69887 1.70033C0.823696 2.5755 0.332031 3.76249 0.332031 5.00016C0.332031 8.50016 4.9987 13.6668 4.9987 13.6668C4.9987 13.6668 9.66536 8.50016 9.66536 5.00016C9.66536 3.76249 9.1737 2.5755 8.29853 1.70033C7.42336 0.825161 6.23637 0.333496 4.9987 0.333496Z"
+              fill="black" />
+          </svg>
+          <p class="text-sm">{{$location}}</p>
+        </div>
+        {{ else }}
+        {{ partial "components/arrow-button.html" (dict "link" .Context.RelPermalink "label" "Learn More" "variation" "outline") }}
+        {{ end }}
+
+      </div>
+    </div>
+  </div>
+</div>

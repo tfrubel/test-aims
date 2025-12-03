@@ -1,0 +1,25 @@
+{{- $image := .Image | default "/images/image-placeholder.png" -}}
+{{- $title := .Title | default "Default Title" -}}
+{{- $description := .Description | default "Default description text goes here. This is a placeholder for the news card description." -}}
+{{- $pdf := .Pdf | default "" -}}
+{{- $relPermalink := .RelPermalink | default "" -}}
+
+
+<div
+  class="flex flex-col sm:flex-row p-4 lg:p-6 border border-primary/10 hover:border-primary gap-6">
+  {{ partial "image" (dict "Src" $image "Alt" $title "Class" "!w-full !max-w-[160px] !h-full object-cover aspect-[190:270] mx-auto sm:mx-0" "Size" "190x270") }}
+
+
+  <div class="flex flex-col gap-8 justify-between h-full ">
+    {{/* Title */}}
+    <h3 class="text-h6 xl:text-h5 font-bold mb-4 text-center sm:text-left">{{ $title }}</h3>
+
+    <div class="flex flex-wrap gap-4 justify-center sm:justify-stretch">
+      {{ partial "process-file" (dict "Src" $pdf) }}
+      {{ partial "components/arrow-button.html" (dict "link" $pdf "label" "Download PDF"  "variation" "outline") }}
+
+      {{ partial "components/arrow-button.html" (dict "link" (relLangURL $relPermalink) "label" "View Online"  "variation" "outline") }}
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+{{ $governance := site.GetPage "sections/our-governance" }}
+{{ if $governance.Params.enable }}
+  <section class="section">
+    <div class="container">
+      <div class="container">
+        <h2 class="mb-10 leading-none">
+          {{ $governance.Title | upper | markdownify }}
+        </h2>
+        {{/* Shuffle Filter */}}
+
+        {{ $tabGroups := $governance.Params.section_content.tab_groups }}
+        <div class="initialize-shuffle">
+          {{/* Nav Items by institutions */}}
+          <ul class="flex justify-center flex-wrap mb-8  max-w-max ">
+            {{ range $tabGroups }}
+              <li>
+                <button
+                  class="btn shuffle-filter-btn px-3"
+                  data-filter="{{ .tab_item | urlize }}">
+                  {{ .tab_item }}
+                </button>
+              </li>
+            {{ end }}
+          </ul>
+          <div class="shuffle-container row g-4">
+            {{ range $parent, $v := $tabGroups }}
+              {{ range $v.tab_contents }}
+                {{/* Get single markdown */}}
+                {{ $single := site.GetPage (printf "/our-people/%s" .) }}
+                {{ with $single.Params }}
+                  <div
+                    class="sm:col-6 lg:col-4 shuffle-item "
+                    data-groups="{{ $v.tab_item | urlize }}">
+                    {{ partial "components/our-people-card.html" (dict "Image" .image "Title" .Title "Designation" .designation "Institution" .institution "RelPermalink" $single.RelPermalink) }}
+                  </div>
+                {{ end }}
+              {{ end }}
+            {{ end }}
+          </div>
+        </div>
+
+        {{ with $governance.Params.button }}
+          {{ if .enable }}
+            {{ partial "components/arrow-button.html" (dict "link" (relLangURL .link) "label" .label "class" "mt-10" ) }}
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
